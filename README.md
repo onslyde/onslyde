@@ -1,4 +1,13 @@
-Please see the complete site at <http://onslyde.com/>.
+Please see the complete site at <http://onslyde.com/>. Or, read [this post](http://wesleyhales.com/blog/2013/02/25/How-Collective-Wisdom-Shapes-a-Talk/) for the full history.
+
+#Very basic instructions
+<ul>
+<li><a href="http://onslyde.com" target="_blank">Signup here</a> and get a session ID. Make a note of your assigned "session ID". The UI sucks right now, so after you hit the submit button it will show up in a barely visible green box above the name input.</li>
+<li>Follow the directions <a href="http://onslyde.com/example-deck.html" target="_blank">mentioned in this slide deck</a>. Basically just save the HTML to disk somewhere.</li>
+<li>Go to line 317 in the HTML file you just saved and replace the current sessionID value (103) with the one from your signup.</li>
+<li>You now have a private session for your presentation.</li>
+<li><a href="https://github.com/wesleyhales/onslyde">Come help out with the project</a></li>
+</ul>
 
 # License
 
@@ -21,3 +30,6 @@ Please see the complete site at <http://onslyde.com/>.
     IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# Contributors
+
+* Darren Nelsen 
