@@ -9,6 +9,16 @@ Please see the complete site at <http://onslyde.com/>. Or, read [this post](http
 <li><a href="https://github.com/wesleyhales/onslyde">Come help out with the project</a></li>
 </ul>
 
+#Hosting/Uploading
+Since there can be a delay in the data route from the audience remote control, then to the ws server, 
+and then to the slide deck on your computer, I will happily host your HTML slide deck on the onslyde server. 
+Send a pull request to this repo:
+<ul>
+<li>Make sure it's in a directory that is unique to your talk.</li>
+<li>Follow the example from the /DevNexus folder</li>
+<li>Feel free to rebrand the remote for the audience with your twitter handle etc...</li>
+</ul>
+
 # License
 
     Copyright (c) 2012-2013 Wesley Hales and contributors (see git log)
