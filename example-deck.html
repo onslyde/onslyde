@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>onslyde - example deck</title>
+
+    <meta name="description" content="onslyde example">
+    <meta name="author" content="Wesley Hales">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link rel="stylesheet" href="http://onslyde.com/css/reveal/reveal.css">
+    <link rel="stylesheet" href="http://onslyde.com/css/reveal/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="http://onslyde.com/js/reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        document.write( '<link rel="stylesheet" href="http://onslyde.com/css/reveal/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="http://onslyde.com/js/reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <style>
+        .placeholder {
+            height: 225px;
+            width: 95%;
+        }
+
+        .hide-wtf,
+        .hide-nice {
+            opacity:0;
+            width:1px;
+            height: 1px;
+            background-color: red;
+            color: #fff;
+            position: absolute;
+
+            right:0;
+
+            bottom: 0;
+            font-size: .01em;
+            z-index: 12;
+        }
+
+        .show-wtf,
+        .show-nice {
+            opacity: 1;
+            /*width: 50%;*/
+            height: 10%;
+            background-color: red;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            right:0;
+            left: 0;
+            bottom: 0;
+            padding: 5% 0 0 0;
+            position: absolute;
+            font-size: 3em;
+            z-index: 12;
+        }
+
+        .nice {
+            background-color: green;
+        }
+
+            /*=============== charts*/
+
+        .tickLabel {
+            font-size: 26px;
+            color: #fff;
+        }
+
+        .xAxis .tickLabel {
+            margin: 10px 0 0 0;
+        }
+
+        .address {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            right:0;
+            left: 0;
+            bottom: 0;
+            position: absolute;
+            font-size: 1em;
+            z-index: 10;
+        }
+
+        .address h4 {
+            padding: 5px;
+        }
+
+        section .rubber_stamp {
+            font-family: 'Vollkorn', serif;
+            font-size: 45px;
+            line-height: 45px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: red;
+            border: 7px solid red;
+            float: left;
+            padding: 10px 7px;
+            border-radius: 10px;
+            position: absolute;
+            top: 79px;
+            right: 10px;
+            opacity: 0.8;
+            -webkit-transform:rotate(22deg);
+            -o-transform:rotate(-10deg);
+            -moz-transform:rotate(-10deg);
+            -ms-transform:rotate(-10deg);
+        }
+        section .rubber_stamp:after {
+            position: absolute;
+            content: " ";
+            width: 100%;
+            height: auto;
+            min-height:100%;
+            top: -10px;
+            left: -10px;
+            padding: 10px;
+        }
+
+        @font-face {
+            font-family: 'Vollkorn';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Vollkorn Bold'), local('Vollkorn-Bold'), url(https://themes.googleusercontent.com/static/fonts/vollkorn/v3/wMZpbUtcCo9GUabw9JODerrIa-7acMAeDBVuclsi6Gc.woff) format('woff');
+        }
+
+        #stats {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #000;
+            font-family: "League Gothic", Impact, sans-serif;
+            font-size: 22px;
+        }
+
+        #stats > span {
+            display: inline-block;
+            margin: 2px;
+            background-color: #999;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31854873-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+<div id="wtf" class="hide-wtf">
+    WTF!!!
+</div>
+<div id="nice" class="hide-nice">
+    Nice!!!
+</div>
+<div id="stats">
+    <span><span id="wscount"></span> WebSocket </span><span><span id="pollcount"></span> Polling</span>
+</div>
+<div class="reveal">
+<div class="address">
+    <h4 style="text-transform: lowercase;">connect now <span style="color:#13daec;">http://onslyde.com/go/<span id="sessionID"></span></span></h4>
+</div>
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section class="slide-group">
+
+    <section>
+        <h2 class="send">onslyde example deck</h2>
+        <h3><a href="http://twitter.com/onslyde">@onslyde</a></h3>
+    </section>
+
+</section>
+
+<section class="slide-group">
+
+    <section>
+        <p class="send">onslyde is a JavaScript based presentation tool that helps you present better.</p>
+    </section>
+
+</section>
+
+    <section class="slide-group">
+
+        <section class="slide" data-option="master">
+            <h3 style="color:orange" class="send">Does this excite you?</h3>
+        </section>
+
+        <section class="slide" data-option="Yes">
+            <div class="send">
+                Awesome, then keep going
+            </div>
+        </section>
+
+        <section class="slide" data-option="No Way">
+            <div class="send">
+                Alrighty, go use Keynote or Powerpoint and pray the audience stays awake ;)
+            </div>
+        </section>
+
+    </section>
+
+<section class="slide-group">
+
+    <section data-state="alert">
+        <h3>Getting Started (is simple)</h3>
+        <ul class="send">
+            <li>Just click File->Save Page As (make sure you select the Webpage, HTML only)
+            </li>
+        </ul>
+        <img src="/images/savepageas.PNG"/>
+    </section>
+
+</section>
+
+<section class="slide-group">
+
+    <section>
+        <h3>That's IT!</h3>
+        <ul class="send">
+            <li>You now have your presentation running on your machine.</li>
+            <li>After you save this deck locally, you can edit it and present with it.</li>
+            <li>You will also need to create an account and get a session ID.</li>
+            <li>See the bottom of this <a href="http://bit.ly/YLxhv5" target="_blank">blog post</a> for the only docs I have atm.</li>
+        </ul>
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section class="slide" data-option="master">
+        <h3 style="color:orange" class="send">This is the coolest thing, ever.</h3>
+    </section>
+
+    <section class="slide" data-option="Yep!">
+        <div class="send">
+            There is still a ton of stuff to do. <a href="https://github.com/wesleyhales/onslyde">Please come help</a>.
+        </div>
+    </section>
+
+    <section class="slide" data-option="Nope!">
+        <div class="send">
+            Ping me at <a href="http://twitter.com/onslyde">@onslyde</a> and let me know whos cooler :)
+        </div>
+    </section>
+</section>
+
+
+<section class="slide-group">
+
+    <section>
+        <h3>Thanks!!</h3>
+    </section>
+
+</section>
+
+
+</div>
+
+
+</div>
+
+<script src="http://onslyde.com/js/reveal/lib/js/head.min.js"></script>
+<script src="http://onslyde.com/js/reveal/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'http://onslyde.com/js/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'http://onslyde.com/js/reveal/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'http://onslyde.com/js/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'http://onslyde.com/js/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'http://onslyde.com/js/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'http://onslyde.com/js/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+
+<script type="text/javascript" src="http://onslyde.com/js/slidfast-1.0.0.deck.reveal.js" ></script>
+<script type="text/javascript">
+
+    slidfast({
+        onslyde: {deck:true,sessionID: 103}
+    });
+</script>
+<script src="http://onslyde.com/js/libs/jquery-1.7.1.min.js"></script>
+<script src="http://onslyde.com/js/libs/jquery.flot.js"></script>
+<script type="text/javascript" src="http://onslyde.com/js/slidedeck.js" ></script>
+
+</body>
+</html>

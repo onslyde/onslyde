@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>The Browser as a Platform - DevNexus 2013</title>
+
+    <meta name="description" content="The Browser as a Platform">
+    <meta name="author" content="Wesley Hales">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link rel="stylesheet" href="/css/reveal/reveal.css">
+    <link rel="stylesheet" href="/css/reveal/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="/js/reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        document.write( '<link rel="stylesheet" href="/css/reveal/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/js/reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <style>
+        .placeholder {
+            height: 225px;
+            width: 95%;
+        }
+
+        .hide-wtf,
+        .hide-nice {
+            opacity:0;
+            width:1px;
+            height: 1px;
+            background-color: red;
+            color: #fff;
+            position: absolute;
+
+            right:0;
+
+            bottom: 0;
+            font-size: .01em;
+            z-index: 12;
+        }
+
+        .show-wtf,
+        .show-nice {
+            opacity: 1;
+            /*width: 50%;*/
+            height: 10%;
+            background-color: red;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            right:0;
+            left: 0;
+            bottom: 0;
+            padding: 5% 0 0 0;
+            position: absolute;
+            font-size: 3em;
+            z-index: 12;
+        }
+
+        .nice {
+            background-color: green;
+        }
+
+            /*=============== charts*/
+
+        .tickLabel {
+            font-size: 26px;
+            color: #fff;
+        }
+
+        .xAxis .tickLabel {
+            margin: 10px 0 0 0;
+        }
+
+        .address {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            right:0;
+            left: 0;
+            bottom: 0;
+            position: absolute;
+            font-size: 1em;
+            z-index: 10;
+        }
+
+        .address h4 {
+            padding: 5px;
+        }
+
+        section .rubber_stamp {
+            font-family: 'Vollkorn', serif;
+            font-size: 45px;
+            line-height: 45px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: red;
+            border: 7px solid red;
+            float: left;
+            padding: 10px 7px;
+            border-radius: 10px;
+            position: absolute;
+            top: 79px;
+            right: 10px;
+            opacity: 0.8;
+            -webkit-transform:rotate(22deg);
+            -o-transform:rotate(-10deg);
+            -moz-transform:rotate(-10deg);
+            -ms-transform:rotate(-10deg);
+        }
+        section .rubber_stamp:after {
+            position: absolute;
+            content: " ";
+            width: 100%;
+            height: auto;
+            min-height:100%;
+            top: -10px;
+            left: -10px;
+            padding: 10px;
+        }
+
+        @font-face {
+            font-family: 'Vollkorn';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Vollkorn Bold'), local('Vollkorn-Bold'), url(https://themes.googleusercontent.com/static/fonts/vollkorn/v3/wMZpbUtcCo9GUabw9JODerrIa-7acMAeDBVuclsi6Gc.woff) format('woff');
+        }
+
+        #stats {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #000;
+            font-family: "League Gothic", Impact, sans-serif;
+            font-size: 22px;
+        }
+
+        #stats > span {
+            display: inline-block;
+            margin: 2px;
+            background-color: #999;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31854873-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+<div id="wtf" class="hide-wtf">
+    WTF!!!
+</div>
+<div id="nice" class="hide-nice">
+    Nice!!!
+</div>
+<div id="stats">
+    <span><span id="wscount"></span> WebSocket </span><span><span id="pollcount"></span> Polling</span>
+</div>
+<div class="reveal">
+<div class="address">
+    <h4 style="text-transform: lowercase;">connect now <span style="color:#13daec;">http://onslyde.com/devnexus</span></h4>
+</div>
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section class="slide-group">
+    <section>
+    <h2 class="send">The Browser as a Platform</h2>
+    <h3><a href="http://twitter.com/wesleyhales">@wesleyhales</a></h3>
+    </section>
+</section>
+
+<section class="slide-group">
+
+    <section class="slide" data-option="master">
+        <h3 class="send" style="color:orange">What are you focused on right now?</h3>
+    </section>
+
+    <section class="slide" data-option="Desktop">
+        <div class="send">
+        <p>Awww!</p>
+        <img src="/images/what.gif"/>
+        </div>
+    </section>
+
+    <section class="slide" data-option="Mobile">
+        <div class="send">
+        <p>Sweet!</p>
+        <img src="/images/Sadhu-baba-with-mobile-funny.jpg"/>
+        </div>
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <div class="send">
+        <h3>The Web Browser is the platform</h3>
+        <img src="/images/remix12/allbrowsers.png"/>
+        </div>
+    </section>
+
+    <section>
+        <p class="send">The front-end gets just as much consideration as the back-end</p>
+    </section>
+
+    <section>
+        <p class="send">Mostly because of mobile</p>
+    </section>
+
+    <section>
+        <p class="send">Regardless of the device, we are dealing with a web browser.</p>
+    </section>
+
+    <section>
+        <div class="send">
+        7000 types of mobile devices parsing Facebook mobile web each day
+        <a href="https://twitter.com/firt/status/266274829462814721" target="_blank">Facebook at QCon</a>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        (Financial Times) 30% of page views & 15% of new subscriptions come from mobile:
+        <a href="http://www.currybet.net/cbet_blog/2012/11/wanifra-ft.php" target="_blank">http://www.currybet.net</a>
+        <br/>
+        <a href="http://app.ft.com/">app.ft.com</a>
+        </div>
+    </section>
+
+    <section>
+        <p class="send">Browser as a Platform Problems</p>
+    </section>
+
+    <section>
+        <img class="send" src="/images/devoxx2012u/mobile-first-no.png"/>
+    </section>
+
+    <section>
+        <div class="send">
+        <p>Did somebody say me first?</p>
+        <img src="/images/funny-browser-war.jpg"/>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        <h3>Lets take a step back</h3>
+        <p>Understand the problems and come up with an approach.</p>
+        </div>
+    </section>
+
+</section>
+
+<section class="slide-group">
+
+    <section class="slide" data-option="master">
+        <h3 class="send" style="color:orange">Are you currently working with a JS MVC-style framework?</h3>
+    </section>
+
+    <section class="slide" data-option="Yep">
+        <div class="send">
+            <p>Cool!</p>
+        </div>
+    </section>
+
+    <section class="slide" data-option="Not yet">
+        <div class="send">
+            <p>Check out <a href="http://todomvc.com/" target="_blank">TodoMVC.com</a></p>
+        </div>
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <h3 class="send">Client vs. Server HTML Generation</h3>
+    </section>
+
+    <section>
+        <p class="send">Somewhere between 2008 and 2009, generating HTML and other resources on the backend broke down.</p>
+    </section>
+
+    <section>
+        <p class="send">This was mostly due to the progressive enhancement</p>
+        (enhancing pages with AJAX and other performance optimizations.)
+    </section>
+
+    <section>
+        <p class="send">This forced developers to create better APIs and more efficient ways of delivering data (through JSON and XML).</p>
+    </section>
+
+    <section>
+        <p class="send">When everything runs on the client, however, performance can be reduced.</p>
+    </section>
+
+    <section>
+        <p class="send">JavaScript heavy applications are not SEO friendly</p>
+    </section>
+
+    <section>
+        <p class="send">Server side pre-rendering?</p>
+    </section>
+
+    <section>
+        <h2>Client side generation (PROs):</h2>
+        <ul class="send">
+            <li>Reduces server load</li>
+            <li>JSON uses less bandwidth than presentation ready HTML</li>
+            <li>CDN Bandwidth (jQuery, BackBone, etc...)</li>
+            <li>Offline capability \o/</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Client side generation (CONs):</h2>
+        <ul class="send">
+            <li>Can reduce performance of device/browser</li>
+            <li>Parsing JSON and generating HTML uses more memory</li>
+            <li>Hardware access === battery drain</li>
+            <li>SEO</li>
+        </ul>
+    </section>
+
+    <section data-state="alert">
+        <h2 class="send">The most notable client side con is security</h2>
+        <ul>
+            <li>Web Storage is widely supported but not secure</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3 class="send">Dont end up with a huge mess!</h3>
+        (Most of the time, you’ll end up with a hybrid app)
+        <ul>
+            <li>Dealing with separate code bases takes special care</li>
+            <li>JavaScript MV* frameworks help with this</li>
+        </ul>
+    </section>
+
+</section>
+
+<section class="slide-group">
+
+    <section class="slide" data-option="master">
+        <h3 class="send" style="color:orange">Have you heard of browser reflow?</h3>
+    </section>
+
+    <section class="slide" data-option="Hell Yeah!">
+        <div class="send">
+            <p>Cool! You are going to hear about it again :)</p>
+        </div>
+    </section>
+
+    <section class="slide" data-option="Not yet">
+        <div class="send">
+            <p>Cool! reflow is next...</p>
+        </div>
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <h2 class="send">Performance and Optimizing</h2>
+    </section>
+
+    <section>
+        <p class="send">If you want to optimize something you need to be able to measure it.</p>
+    </section>
+
+    <section>
+        <p class="send">80ms is the average response time noticed by the human eye</p>
+    </section>
+
+    <section>
+        <h3 class="send">Client Side Performance - Reflow</h3>
+        <iframe width="420" height="315" src="http://www.youtube.com/embed/ZTnIxIA5KGw" frameborder="0" allowfullscreen></iframe>
+    </section>
+
+    <section class="send">
+        <p class="send">Reflow is the process by which the geometry of the layout engine formatting objects are computed.</p>
+    </section>
+
+    <section class="send">
+        <div class="send">
+            <p>Image decoding and bounce rates.</p>
+        <img src="/images/bounce.jpg"/>
+        </div>
+    </section>
+
+    <section>
+        Client Side Performance Tools
+        <ul class="send">
+            <li>Skia Debugger for Chrome</li>
+            <li>Scripting + PhantomJS</li>
+            <li>Chrome Dev Tools / Firebug for Firefox</li>
+        </ul>
+    </section>
+
+    <section data-state="alert">
+        <h3>Demo</h3>
+        <p>Review Performance Tools</p>
+        <ul class="send">
+            <li><a href="https://sites.google.com/site/skiadocs/developer-documentation/skia-debugger">Skia Debugger</a></li>
+            <li><a href="http://loadreport.wesleyhales.com/">Loadreport.js</a></li>
+            <li>Chrome Dev Tools</li>
+        </ul>
+    </section>
+
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <h3 class="send">Compression</h3>
+    </section>
+
+    <section>
+        <p class="send">GZIP everything except stuff that is already (natively) compressed</p>
+    </section>
+
+    <section>
+        <p class="send">For example, GZIPing JPEG images will...</p>
+    </section>
+
+    <section>
+        <p class="send">Cause unneeded overhead on the server</p>
+    </section>
+
+    <section>
+        <p class="send">and applying HTTP compression to something that is already compressed (PNG, JPEG...) will not make it smaller.</p>
+    </section>
+
+    <section>
+        Example server configs:
+        <ul class="send">
+            <li><a href="https://github.com/h5bp/server-configs" target="_blank">https://github.com/h5bp/server-configs</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>The ultimate combo...</h3>
+        <ul class="send">
+            <li>Base64 images into CSS</li>
+            <li>GZIP your CSS files</li>
+        </ul>
+    </section>
+
+    <section data-state="alert">
+        <h3>Base64 Demo with Canvas</h3>
+        <ul class="send">
+            <li>Load the image via Javascript</li>
+            <li>draw it into a canvas tag</li>
+            <li>base64 the image data</li>
+            <li><a href="http://enable-cors.org/" target="_blank">http://enable-cors.org/</a></li>
+            <li><a href="https://github.com/slidfast/slidfast/blob/master/slidfast.js#L244" target="_blank">Source</a></li>
+            <li><a href="http://i-tools.org/gzip" target="_blank">simple string compressor (gzip)</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <p class="send">This allows us to store the string via localStorage and use it when offline or on a slow connection.</p>
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <h3 class="send">Minification</h3>
+    </section>
+
+    <section>
+        <p class="send">Minification is the process of removing all unnecessary characters from source code, without changing its functionality.</p>
+    </section>
+
+    <section>
+        <h3>Available Libraries:</h3>
+        <ul class="send">
+            <li><a href="http://www.crockford.com/javascript/jsmin.html" target="_blank">JSMin</a></li>
+            <li><a href="http://dean.edwards.name/packer/" target="_blank">Packer</a></li>
+            <li><a href="http://dojotoolkit.org/documentation/" target="_blank">Dojo ShrinkSafe</a></li>
+            <li><a href="http://developer.yahoo.com/yui/compressor/" target="_blank">YUI Compressor</a></li>
+        </ul>
+    </section>
+
+    <section data-state="alert">
+        <h3>Demo</h3>
+        <p>How do you choose a minifier?</p>
+        <ul class="send">
+            <li><a href="http://compressorrater.thruhere.net/" target="_blank">CompressorRater</a></li>
+            <li><a href="http://marijnhaverbeke.nl/uglifyjs" target="_blank">uglifyjs</a></li>
+        </ul>
+    </section>
+
+</section>
+
+<section class="slide-group">
+
+    <section class="slide" data-option="master">
+        <h3 style="color:orange" class="send">Who uses a front-end build script?</h3>
+    </section>
+
+    <section class="slide" data-option="I do">
+        Good!
+    </section>
+
+    <section class="slide" data-option="Not me">
+        Awww :( Let us look at a few.
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <p class="send">Bringing it all together</p>
+    </section>
+
+    <section>
+        <h3 class="send"><a href="https://github.com/cowboy/grunt" target="_blank">gruntjs</a></h3>
+    </section>
+
+    <section>
+        <ul class="send">
+            <li>concatenate files</li>
+            <li>validate files with JSHint</li>
+            <li>minify with UglifyJS</li>
+            <li>run headless QUnit tests with a PhantomJS</li>
+        </ul>
+    </section>
+
+    <section data-state="alert">
+        <h3 class="send">Demo</h3>
+        <p><a href="https://github.com/cowboy/grunt">gruntjs</a> basics</p>
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <h2 class="send">Browser Performance</h2>
+    </section>
+</section>
+
+<section class="slide-group">
+
+    <section>
+        <p class="send">Developers inherently care about performance</p>
+    </section>
+
+    <section>
+        <p class="send">Product, Sales, and Marketing folks don’t care as much</p>
+    </section>
+
+    <section>
+        <p class="send">Performance impacts the bottom line of the business</p>
+    </section>
+
+    <section>
+        <p class="send">When speed drops off, the performance of the business drops off</p>
+    </section>
+
+    <section>
+        <div class="send">
+        <h2>An Experiment...</h2>
+        <h3>By Google, Yahoo! and Bing</h3>
+        <p>By Steve Souders</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        <h2>Google introduced +0.4 second delay</h2>
+        <h3 class="red-text">Searches dropped by 0.6%</h3>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        <h2>Yahoo introduced +0.4 second delay</h2>
+        <h3 class="red-text">Traffic dropped by 5-9% in full page traffic</h3>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        <h2>Bing introduced a full 2 second delay</h2>
+        <h3 class="red-text">Revenue per user dropped 4%</h3>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        <h2>Shopzilla reduced page load by 5s</h2>
+        <h3 class="green-text">Revenue increased by 12%</h3>
+        <ul>
+            <li class="green-text">Hardware reduced by 50%</li>
+            <li class="green-text">Unique users doubled</li>
+        </ul>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        <h2>An Experiment...</h2>
+        <h3>On CNN.com</h3>
+        <p>By Me</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="send">
+        <h2>CNN removed jQuery and Protoaculous from concatenation and added to CDN</h2>
+        <h3 class="green-text">Improved site performance by 17%</h3>
+        <h3 class="green-text">Reduced almost 1TB of bandwidth per day</h3>
+        </div>
+    </section>
+
+</section>
+
+<section class="slide-group">
+    <section>
+        <p class="send">What makes sites feel slow?</p>
+    </section>
+
+    <section>
+        <p class="send">Non-gzipped or non-cached resources</p>
+    </section>
+
+    <section>
+        <p class="send">Too much concatenation</p>
+    </section>
+
+    <section>
+        <p class="send">Script block (downloading and rendering)</p>
+    </section>
+
+    <section>
+        <p class="send">Figure out whats needed to render the page and defer everything else</p>
+    </section>
+
+    <section>
+        <h3>UI Checklist</h3>
+        <ul class="send">
+            <li>Make fewer HTTP requests</li>
+            <li>Use a CDN</li>
+            <li>Gzip components</li>
+            <li>Put style sheets at the top</li>
+            <li>Put scripts at the bottom</li>
+            <li>Avoid CSS expressions</li>
+        </ul>
+    </section>
+
+    <section>
+        <p class="send">Avoid CSS expressions?</p>
+        <a href="http://wesleyhales.com/blog/2012/04/09/PhoneGap-iscroll-css3-choppiness/">CSS Demo</a>
+    </section>
+
+</section>
+
+<section class="slide-group">
+
+    <section>
+        <h2 class="send">Script Loading</h2>
+    </section>
+
+    <section>
+        <p>Use defer - Introduced over 12 years ago with IE4</p>
+<pre><code>
+&lt;script src="file.js" defer&gt;&lt;/script&gt;
+</code></pre>
+        <p>Download in background and execute in order</p>
+    </section>
+
+    <section>
+        <p>With HTML5 - Use async</p>
+<pre><code>
+&lt;script src="file.js" async&gt;&lt;/script&gt;
+</code></pre>
+        <p>Execute when downloaded but no order preservation</p>
+    </section>
+
+    <section>
+        <p>Only Needed after page load...</p>
+<pre><code>
+var se = document.createElement(‘script’);
+se.src = ‘http://mydomain.com/script.js’
+//append to head
+</code></pre>
+        <p>Used by Google Analytics - May not preserve order</p>
+    </section>
+
+    <section>
+        <p>Only Needed after page load...(cont)</p>
+<pre><code>
+&lt;script type=“text/javascript”&gt;
+/*var …*/
+&lt;/script&gt;
+</code></pre>
+        <p>Gmail Mobile - remove comment delimiters eval when needed</p>
+    </section>
+
+    <section>
+        <p>ControlJS</p>
+<pre><code>
+&lt;script type="text/cjs" data-cjssrc="main.js"&gt;&lt;/script&gt;
+</code></pre>
+        <p>Used By Washington Post - Crawls DOM, Loads scripts asyn</p>
+    </section>
+
+    <section>
+        <h3>Diagnosing Problems</h3>
+        <ul class="send">
+            <li>Yslow</li>
+            <li>Page Speed (shows how much JS was actually used)</li>
+            <li>WebPagetest.org</li>
+            <li><a href="http://loadreport.wesleyhales.com">loadreport.js...</a></li>
+        </ul>
+    </section>
+</section>
+
+
+
+<section class="slide-group">
+    <section>
+        <div class="send">
+        <h1>Thanks!!!</h1>
+        <a href="http://www.meetup.com/AtlantaHTML5/">Come to Atlanta HTML5 on Wed.</a>
+        </div>
+    </section>
+</section>
+
+</div>
+
+
+</div>
+
+<script src="/js/reveal/lib/js/head.min.js"></script>
+<script src="/js/reveal/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: '/js/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: '/js/reveal/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/js/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/js/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: '/js/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: '/js/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+
+<script type="text/javascript" src="/js/slidfast-reveal.js" ></script>
+<script type="text/javascript">
+
+    slidfast({
+        touchEnabled: false,
+        slides: true
+    });
+</script>
+<script src="/js/libs/jquery-1.7.1.min.js"></script>
+<script src="/js/libs/jquery.flot.js"></script>
+<script type="text/javascript" src="/js/slidedeck.js" ></script>
+
+</body>
+</html>
