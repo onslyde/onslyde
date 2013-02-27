@@ -62,8 +62,8 @@ Or, read [this post](http://wesleyhales.com/blog/2013/02/25/How-Collective-Wisdo
 #Very basic instructions
 <ul>
 <li><a href="http://onslyde.com" target="_blank">Signup here</a> and get a session ID. Make a note of your assigned "session ID". The UI sucks right now, so after you hit the submit button it will show up in a barely visible green box above the name input.</li>
-<li>Follow the directions <a href="http://onslyde.com/example-deck.html" target="_blank">mentioned in this slide deck</a>. Basically just save the HTML to disk somewhere.</li>
-<li>Go to line 317 in the HTML file you just saved and replace the current sessionID value (103) with the one from your signup.</li>
+<li>Save <a href="http://onslyde.com/example-deck.html" target="_blank">this slide deck</a> to disk (Save As->"Webpage, HTML Only").</li>
+<li>Open the HTML file you saved, hit ctrl-f and find "sessionID". Replace the current sessionID value (103) with the one from your signup.</li>
 <li>You now have a private session for your presentation.</li>
 <li><a href="https://github.com/wesleyhales/onslyde">Come help out with the project</a></li>
 </ul>
@@ -73,9 +73,8 @@ Since there can be a delay in the data route from the audience remote control, t
 and then to the slide deck on your computer, I will happily host your HTML slide deck on the onslyde server. 
 Send a pull request to this repo:
 <ul>
-<li>Make sure it's in a directory that is unique to your talk.</li>
-<li>Follow the example from the /DevNexus folder</li>
-<li>Feel free to rebrand the remote for the audience with your twitter handle etc...</li>
+<li>Make sure it's in a directory that is unique to your talk. (e.g. "/mytalk2013")</li>
+<li>Feel free to rebrand the remote for the audience with your twitter handle etc... and put it in the folder above.</li>
 </ul>
 
 # License
