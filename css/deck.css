@@ -1,0 +1,86 @@
+.placeholder {
+    height: 225px;
+    width: 95%;
+}
+
+.hide-wtf,
+.hide-nice {
+    opacity:0;
+    width:1px;
+    height: 1px;
+    background-color: red;
+    color: #fff;
+    position: absolute;
+
+    right:0;
+
+    bottom: 0;
+    font-size: .01em;
+    z-index: 12;
+}
+
+.show-wtf,
+.show-nice {
+    opacity: 1;
+    /*width: 50%;*/
+    height: 10%;
+    background-color: red;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    right:0;
+    left: 0;
+    bottom: 0;
+    padding: 5% 0 0 0;
+    position: absolute;
+    font-size: 3em;
+    z-index: 12;
+}
+
+.nice {
+    background-color: green;
+}
+
+/*=============== charts*/
+
+.tickLabel {
+    font-size: 26px;
+    color: #fff;
+}
+
+.xAxis .tickLabel {
+    margin: 10px 0 0 0;
+}
+
+.address {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    right:0;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    font-size: 1em;
+    z-index: 10;
+}
+
+.address h4 {
+    padding: 5px;
+}
+
+#stats {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #000;
+    font-family: "League Gothic", Impact, sans-serif;
+    font-size: 22px;
+}
+
+#stats > span {
+    display: inline-block;
+    margin: 2px;
+    background-color: #999;
+    padding: 5px;
+}

@@ -986,15 +986,29 @@
     slidfast.ws = slidfast.prototype = {
 
       ip : function(sessionID) {
+        //todo come up with better approach :)
+        //there are 3 environments in which this call must be made:
+        //(1) running just HTML locally
+        //(2) running the ws server and HTML locally
+        //(3) prod where ip needs to be hard coded since we get ec2 private IP on this call
+
         var ai = new slidfast.core.ajax('/go/presenters/ip?session=' + window.onslydeSessionID,function(text,url){
-          ip = text;
+          if(location.host === 'onslyde.com'){
+            //(3) - set proper IP if in prod
+            //todo - even though we set the IP and don't use data from server, this http request bootstraps an internal piece on each connect
+            ip = '107.22.176.73'
+          }else{
+            //(2) - set proper IP dynamically for locally running server
+            ip = text;
+          }
+
         },false);
 
-        //there are 2 dev environments (1) running just HTML locally (2) running ws server and HTML locally
-        //ip for prod needs to be hard coded as well as case (1) from above
         if(ip === null && location.protocol !== "file:"){
+          //(3) and (2) make sure we make the ajax request
           ai.doGet();
         }else{
+          //(1) HTML is running locally and we can't make ajax request until implement jsonp or CORS headers
           ip = '107.22.176.73';
         }
 
