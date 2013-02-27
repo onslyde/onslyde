@@ -59,7 +59,18 @@ a router/hotspot for the audience to connect to.</p>
 Please see the complete site at <http://onslyde.com/>.  
 Or, read [this post](http://wesleyhales.com/blog/2013/02/25/How-Collective-Wisdom-Shapes-a-Talk/) for the full history.
 
-#Very basic instructions
+#In the wild
+Here is a presentation from February 2013 where onslyde was used:
+http://www.youtube.com/watch?v=n-7Xu75T2bU
+
+*Points in the talk where the audience voted:*
+* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=101s">Vote 1</a>
+* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=583s">Vote 2</a>
+* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=1571s">Vote 3</a>
+* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=1762s">Vote 4</a>
+* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=3451s">Vote 5</a>
+
+#Start presenting
 <ul>
 <li><a href="http://onslyde.com" target="_blank">Signup here</a> and get a session ID. Make a note of your assigned "session ID" after you hit the submit button it will show up above the name input. (You will also get an email with the info)</li>
 <li>Save <a href="http://onslyde.com/example-deck.html" target="_blank">this slide deck</a> to disk (Save As->"Webpage, HTML Only").</li>
