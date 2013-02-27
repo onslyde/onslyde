@@ -63,7 +63,7 @@ Or, read [this post](http://wesleyhales.com/blog/2013/02/25/How-Collective-Wisdo
 <ul>
 <li><a href="http://onslyde.com" target="_blank">Signup here</a> and get a session ID. Make a note of your assigned "session ID" after you hit the submit button it will show up above the name input. (You will also get an email with the info)</li>
 <li>Save <a href="http://onslyde.com/example-deck.html" target="_blank">this slide deck</a> to disk (Save As->"Webpage, HTML Only").</li>
-<li>Open the HTML file you saved, hit ctrl-f and find "sessionID". Replace the current sessionID value (103) with the one from your signup.</li>
+<li>Open the HTML file you saved, hit ctrl-f and search for "sessionID". Replace the current sessionID value (103) with the one from your signup.</li>
 <li>You now have a private session for your presentation.</li>
 </ul>
 
