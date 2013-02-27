@@ -986,30 +986,34 @@
     slidfast.ws = slidfast.prototype = {
 
       ip : function(sessionID) {
-        //dev
-//        console.log('window.onslydeSessionID',window.onslydeSessionID);
-        var ai = new slidfast.core.ajax('http://onslyde.com/go/presenters/ip?session=' + window.onslydeSessionID,function(text,url){
+        var ai = new slidfast.core.ajax('/go/presenters/ip?session=' + window.onslydeSessionID,function(text,url){
           ip = text;
         },false);
-        if(ip === null){
+
+        //there are 2 dev environments (1) running just HTML locally (2) running ws server and HTML locally
+        //ip for prod needs to be hard coded as well as case (1) from above
+        if(ip === null && location.protocol !== "file:"){
           ai.doGet();
+        }else{
+          ip = '107.22.176.73';
         }
 
         return ip;
-
-        //prod
-        //return '107.22.176.73';
       },
 
       getip : function(){
+
+        var createRandom = function(){
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
         var aip;
         var min = 255;
         var max = 999;
-        if(!localStorage['attendeeIP']){
-           aip = (Math.floor(Math.random() * (max - min + 1)) + min) + '.' + (Math.floor(Math.random() * (max - min + 1)) + min) + '.' + (Math.floor(Math.random() * (max - min + 1)) + min) + '.' + (Math.floor(Math.random() * (max - min + 1)) + min);
-          localStorage['attendeeIP'] = aip;
+        if(!localStorage['onslyde.attendeeIP']){
+           aip = createRandom() + '.' + createRandom() + '.' + createRandom() + '.' + createRandom();
+          localStorage['onslyde.attendeeIP'] = aip;
         }else{
-          aip = localStorage['attendeeIP'];
+          aip = localStorage['onslyde.attendeeIP'];
         }
         return aip;
       },
@@ -1020,23 +1024,14 @@
         //here we check to see if we're passing in our mock websocket object from polling clients (using gracefulWebSocket.js)
         console.log('connecting now', websocket);
         if(!websocket){
-//               todo - use localstorage so we don't have to make future http requests for ip, but if ip changes we need to
-//               detect ws failure and refresh localstorage with new ip... //if(!localStorage['/go/members/ip']){
           if(!ip){
-            //dev
             ip = this.ip(window.onslydeSessionID);
-
-            //prod
-            //ip = '107.22.176.73';
           }
-//          console.log('ip',ip,'window.onslydeSessionID',window.onslydeSessionID,this.getip());
           var location = 'ws://' + ip + ':8081/?session=' + window.onslydeSessionID + '&attendeeIP=' + this.getip();
           ws = new WebSocket(location);
         }else{
           ws = websocket;
         }
-        //ws = websocket;
-        //this.ws = ws;
         ws.onopen = function() {
           isopen = true;
           //basic auth until we get something better

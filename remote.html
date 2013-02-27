@@ -2,250 +2,15 @@
 <html lang="en">
 
 <head>
-<title>DevNexus 2013</title>
+<title>Onslyde Remote</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
 <!-- enable full-screen mode -->
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <!-- controls the appearance of the status bar in full-screen mode -->
 <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-<style type="text/css">
-body {
-    background-color: #000;
-}
 
-html {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font: 80% / 1.5em "Lucida Sans Unicode", "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
-}
-
-a {
-    text-decoration: none;
-}
-
-    /*************************************************
-    Mobile Device Page Setup
-    *************************************************/
-
-#browser,
-#slide-group-container,
-.slide-group {
-    width: 100%;
-    height: 100%;
-}
-
-#browser {
-    position: relative;
-}
-
-#slide-group-container {
-    position:absolute;
-    overflow: hidden;
-}
-
-.slide-group {
-    position: absolute;
-    /*top: 0;*/
-    background-color: #fff;
-    /*activate the GPU for compositing each page */
-    /*-webkit-transform: translate3d(0, 0, 0);*/
-    /*height:auto;*/
-    /*bottom:0;*/
-    /*top:0;*/
-    /*left:0;*/
-    /*right:0;*/
-    /*width: auto;*/
-}
-
-.slide {
-    position: absolute;
-    background-color: #ececec;
-    border-radius: 15px;
-    border: 3px solid white;
-    margin: 35px;
-    padding:  15px;
-    bottom:0;
-    top:0;
-    left:0;
-    right:0;
-    width: auto;
-    -moz-box-shadow: 0 0 27px -3px #777;
-    -webkit-box-shadow: 0 0 27px -3px #777;
-    box-shadow: 0 0 27px -3px #777;
-    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C */
-}
-
-    /*************************************************
-    UX Utils
-    *************************************************/
-
-.none {
-    display: none
-}
-
-.hide-it {
-    opacity: 0;
-}
-
-.show {
-    opacity: 100;
-}
-
-.transition {
-    -moz-transition-duration: .5s;
-    -webkit-transition-duration: .5s;
-    -o-transition-duration: .5s;
-}
-
-    /*************************************************
-    Device Specific Styles
-    *************************************************/
-.stage-left,
-.stage-right,
-.stage-center {
-    /*height:auto;*/
-    /*bottom:0;*/
-    /*top:0;*/
-    /*left:0;*/
-    /*right:0;*/
-    /*width: auto;*/
-}
-
-.stage-left {
-    left: -100%;
-    right: 100%;
-    width: auto;
-    /*opacity: 0;*/
-}
-
-.stage-right {
-    left: 100%;
-    right: -100%;
-    width: auto;
-}
-
-    /*----------------------------nav bar*/
-nav.primary > ul {
-    text-align: center;
-    margin: 0;
-    padding:  0;
-    /*position: absolute;*/
-    /*top: 0;*/
-}
-
-nav.primary > ul li {
-    list-style: none;
-    /*display: inline;*/
-    padding: 5px;
-    /*border: 1px solid #fff;*/
-}
-
-nav.primary > ul li a {
-    color: #fff;
-}
-
-    /*----------------------------pages*/
-
-.slide {
-    margin: 15px;
-    bottom:auto;
-    top:0;
-    left:0;
-    right:0;
-    width: auto;
-}
-
-.stage-left {
-    left: -100%;
-    width: auto;
-    right: 100%;
-    opacity: 0;
-}
-
-.stage-right {
-    left: 100%;
-    width: auto;
-    right: -100%;
-    opacity: 0;
-}
-
-#option1,
-#option2,
-#previousSlide,
-#nextSlide{
-    border-radius: 5px;
-    background: -moz-linear-gradient(top, #ffff88 0%, #ffffc9 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffff88), color-stop(100%,#ffffc9)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #ffff88 0%,#ffffc9 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #ffff88 0%,#ffffc9 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #ffff88 0%,#ffffc9 100%); /* IE10+ */
-    background: linear-gradient(top, #ffff88 0%,#ffffc9 100%); /* W3C */
-    padding: 15px 0;
-    width: 48%;
-    font-size: 1.2em;
-    border:  1px solid black;
-    -webkit-appearance: none;
-}
-
-#previousSlide,
-#nextSlide{
-    padding:  45px 0;
-    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C */
-}
-
-#wtf {
-    padding: 15px 0;
-    width: 95%;
-    font-size: 1.2em;
-    border:  1px solid black;
-    -webkit-appearance: none;
-    background: -moz-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff3019), color-stop(100%,#cf0404)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #ff3019 0%,#cf0404 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #ff3019 0%,#cf0404 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #ff3019 0%,#cf0404 100%); /* IE10+ */
-    background: linear-gradient(top, #ff3019 0%,#cf0404 100%); /* W3C */
-}
-
-#browser > h2 {
-    color: #fff;
-    padding:  0 0 0 18px;
-}
-
-#nice {
-    padding: 15px 0;
-    width: 95%;
-    font-size: 1.2em;
-    border:  1px solid black;
-    background: #8fc800; /* Old browsers */
-    background: #9dd53a; /* Old browsers */
-    background: -moz-linear-gradient(top,  #9dd53a 0%, #a1d54f 50%, #80c217 51%, #7cbc0a 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9dd53a), color-stop(50%,#a1d54f), color-stop(51%,#80c217), color-stop(100%,#7cbc0a)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #9dd53a 0%,#a1d54f 50%,#80c217 51%,#7cbc0a 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #9dd53a 0%,#a1d54f 50%,#80c217 51%,#7cbc0a 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #9dd53a 0%,#a1d54f 50%,#80c217 51%,#7cbc0a 100%); /* IE10+ */
-    background: linear-gradient(top,  #9dd53a 0%,#a1d54f 50%,#80c217 51%,#7cbc0a 100%); /* W3C */
-
-
-}
-
-#from-slide img {
-    width: 100%;
-}
-
-</style>
+<link href="css/remote.css" media="screen" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
@@ -263,13 +28,14 @@ nav.primary > ul li a {
 
 </script>
 <div id="browser">
-    <h2 id="vote-label">@wesleyhales</h2>
+    <h2 id="vote-label">Get Ready!</h2>
     <nav class="primary">
         <ul>
-            <li><input id="option1" class="button" type="submit" value="" />
-            <input id="option2" class="button" type="submit" value="" />
-            <input id="nice" class="button" type="submit" value="Nice!" />
-            <input id="wtf" class="button" type="submit" value="WTF!"/>
+            <li>
+                <input id="option1" class="button" type="submit" value="" />
+                <input id="option2" class="button" type="submit" value="" />
+                <input id="nice" class="button" type="submit" value="Nice!" />
+                <input id="wtf" class="button" type="submit" value="WTF!"/>
             </li>
 
         </ul>
@@ -281,12 +47,12 @@ nav.primary > ul li a {
 
             <div id="about-page" class="slide">
                 <div id="from-slide">
-                   Hi, This is the onslyde remote. Audience members will connect to your session and see this remote. This content will update as you move through the slides.
+                   Hi, This is the onslyde remote. Audience members will connect to your session and see this remote. The content/remote will update as you move through the slides.
                 </div>
                 <p>
 
                     <br/>
-                    <a href="https://twitter.com/wesleyhales" target="_blank">Follow @wesleyhales</a>
+                    <a href="https://twitter.com/onslyde" target="_blank">Follow @onslyde</a>
                 </p>
 
             </div>
@@ -297,8 +63,8 @@ nav.primary > ul li a {
 
 </div>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js" ></script>
-
-<script type="text/javascript" src="/js/slidfast-1.0.0.deck.reveal.js" ></script>
+<script type="text/javascript" src="js/remote.js" ></script>
+<script type="text/javascript" src="js/slidfast-1.0.0.deck.reveal.js" ></script>
 <script type="text/javascript">
 
 
@@ -306,250 +72,11 @@ nav.primary > ul li a {
         defaultPageID:'about-page',
         touchEnabled: false,
         singlePageModel: true,
-        onslyde: {sessionID: getParameterByName("session")}
+        onslyde: {sessionID: (getParameterByName("session") || 103)}
     });
-
-    var ws;
-    window.addEventListener('load', function (e) {
-        // in fallback mode: connect returns a dummy object implementing the WebSocket interface
-        ws = $.gracefulWebSocket('ws://'+ slidfast.ws.ip(window.onslydeSessionID) + ':8081'); // the ws-protocol will automatically be changed to http
-        // in fallback mode: sends message to server using HTTP POST
-//        console.log(ws);
-        ws = slidfast.ws.connect(ws);
-    }, false);
-
-    function getParameterByName(name) {
-        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    }
-    $.extend({
-
-        gracefulWebSocket: function (url, options) {
-
-            // Default properties
-            this.defaults = {
-                keepAlive: false,		// not implemented - should ping server to keep socket open
-                autoReconnect: false,	// not implemented - should try to reconnect silently if socket is closed
-                fallback: true,			// not implemented - always use HTTP fallback if native browser support is missing
-                fallbackSendURL: url === 'ws://107.22.176.73:8081' ? 'http://onslyde.com' : url.replace('ws:', 'http:').replace('wss:', 'https:').replace('8081','8080'),
-                fallbackSendMethod: 'POST',
-                fallbackPollURL: url === 'ws://107.22.176.73:8081' ? 'http://onslyde.com' : url.replace('ws:', 'http:').replace('wss:', 'https:').replace('8081','8080'),
-                fallbackPollMethod: 'GET',
-                fallbackOpenDelay: 100,	// number of ms to delay simulated open event
-                fallbackPollInterval: 3000,	// number of ms between poll requests
-                fallbackPollParams: {}		// optional params to pass with poll requests
-            };
-
-            // Override defaults with user properties
-            var opts = $.extend({}, this.defaults, options);
-
-            /**
-             * Creates a fallback object implementing the WebSocket interface
-             */
-            function FallbackSocket() {
-
-                // WebSocket interface constants
-                const CONNECTING = 0;
-                const OPEN = 1;
-                const CLOSING = 2;
-                const CLOSED = 3;
-
-                var pollInterval;
-                var openTimout;
-                var posturl = opts.fallbackSendURL + '/go/attendees/vote';
-
-                // create WebSocket object
-                var fws = {
-                    // ready state
-                    readyState: CONNECTING,
-                    bufferedAmount: 0,
-                    send: function (data) {
-//                        console.log(data);
-                        var success = true;
-                        //replace colon from namespaced websocket data
-
-                        vote = data.replace(('vote:'),'');
-//                        data += ' sessionID:' + window.onslydeSessionID + ' ';
-                        data = {"vote": vote, "sessionID": window.onslydeSessionID};
-//                        console.log('data',data)
-                        $.ajax({
-                            async: false, // send synchronously
-                            type: opts.fallbackSendMethod,
-                            url: posturl,
-                            data: data,
-                            dataType: 'text',
-                            contentType : "application/x-www-form-urlencoded; charset=utf-8",
-                            success: pollSuccess,
-                            error: function (xhr) {
-                                success = false;
-                                $(fws).triggerHandler('error');
-                            }
-                        });
-                        //alert(posturl);
-                        return success;
-                    },
-                    close: function () {
-                        clearTimeout(openTimout);
-                        clearInterval(pollInterval);
-                        this.readyState = CLOSED;
-                        $(fws).triggerHandler('close');
-                    },
-                    onopen: function () {},
-                    onmessage: function () {},
-                    onerror: function () {},
-                    onclose: function () {},
-                    previousRequest: null,
-                    currentRequest: null
-                };
-
-                function getFallbackParams() {
-
-                    // update timestamp of previous and current poll request
-                    fws.previousRequest = fws.currentRequest;
-                    fws.currentRequest = new Date().getTime();
-
-                    // extend default params with plugin options
-                    return $.extend(opts.fallbackPollParams, {"previousRequest": fws.previousRequest, "currentRequest": fws.currentRequest, "sessionID": window.onslydeSessionID});
-                }
-
-                /**
-                 * @param {Object} data
-                 */
-                function pollSuccess(data) {
-
-                    // trigger onmessage
-                    var messageEvent = {"data" : data};
-                    //alert(messageEvent);
-                    fws.onmessage(messageEvent);
-                }
-                var counter = 0;
-                function poll() {
-
-                    $.ajax({
-                        type: opts.fallbackPollMethod,
-                        url: opts.fallbackPollURL + '/go/attendees/json',
-                        dataType: 'text',
-                        data: getFallbackParams(),
-                        success: pollSuccess,
-                        async: false,
-                        timeout: 30000,
-                        error: function (xhr) {
-                            $(fws).triggerHandler('error');
-                        }
-                    });
-                    counter++;
-                    if(counter === 3600){
-                        window.clearInterval(pollInterval);
-                    }
-                }
-                // simulate open event and start polling
-                openTimout = setTimeout(function () {
-                    fws.readyState = OPEN;
-                    //fws.currentRequest = new Date().getTime();
-                    $(fws).triggerHandler('open');
-                    poll();
-                    pollInterval = setInterval(poll, opts.fallbackPollInterval);
-                }, opts.fallbackOpenDelay);
-
-                // return socket impl
-                return fws;
-            }
-
-            // create a new websocket or fallback
-            var ws = window.WebSocket ? new WebSocket(url + '?session=' + window.onslydeSessionID) : new FallbackSocket();
-            $(window).unload(function () { ws.close(); ws = null });
-            return ws;
-        }
-    });
-
-
-
-
-
-    var option1 = document.querySelector('#option1');
-    var option2 = document.querySelector('#option2');
-    var wtf = document.querySelector('#wtf');
-    var nice = document.querySelector('#nice');
-    var voteLabel = document.querySelector('#vote-label');
-    //todo make this unique user for session management/voter registration
-    //var ws = slidfast.ws.join('client:anonymous2');
-
-    disablePoll();
-
-    option1.onclick = function(event) {
-      _gaq.push(['_trackEvent', 'onslyde-option1', 'vote']);
-      return sendVote(event,option1.value);
-    };
-
-    option2.onclick = function(event) {
-       _gaq.push(['_trackEvent', 'onslyde-option2', 'vote']);
-       return sendVote(event,option2.value);
-    };
-
-    function sendVote(event,option){
-
-        if(option){
-            ws.send('vote:' + option);
-        }
-        disablePoll();
-        return false;
-    }
-
-    wtf.onclick = function(event) {
-        _gaq.push(['_trackEvent', 'onslyde-wtf', 'vote']);
-        ws.send('vote:wtf');
-        wtf.disabled = true;
-        wtf.style.opacity = .4;
-        wtf.value = "you only get one per vote :)"
-        return false;
-    };
-
-    nice.onclick = function(event) {
-        _gaq.push(['_trackEvent', 'onslyde-nice', 'vote']);
-        ws.send('vote:nice');
-        nice.disabled = true;
-        nice.style.opacity = .4;
-        nice.value = "you only get one per vote :)"
-        return false;
-    };
-
-    function disablePoll(){
-        option1.disabled = true;
-        option2.disabled = true;
-        option1.style.opacity = .4;
-        option2.style.opacity = .4;
-        //voteLabel.style.opacity = .4;
-        voteLabel.innerHTML = 'Waiting...';
-    }
-
-    window.addEventListener('updateOptions', function(e) {
-        //quick check to make sure we don't re-enable on polling clients
-        if(option1.value != e.option1){
-            option1.disabled = false;
-            option2.disabled = false;
-            wtf.disabled = false;
-            nice.disabled = false;
-            option1.value = e.option1;
-            option2.value = e.option2;
-            wtf.value = 'WTF!';
-            nice.value = 'Nice!';
-            //voteLabel.style.opacity = 1;
-            option1.style.opacity = 1;
-            option2.style.opacity = 1;
-            wtf.style.opacity = 1;
-            nice.style.opacity = 1;
-            voteLabel.innerHTML = 'Vote!';
-        }
-    }, false);
-
-    window.addEventListener('remoteMarkup', function(e) {
-        var markup = jQuery.parseJSON(e.markup)
-        document.getElementById('from-slide').innerHTML = decodeURIComponent(markup.remoteMarkup);
-    }, false);
-
 
 </script>
+<script type="text/javascript" src="js/gracefulWebSocket.js" ></script>
+
 </body>
-
-
 </html>
