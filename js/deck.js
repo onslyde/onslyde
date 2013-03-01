@@ -104,7 +104,8 @@ var barChart = (function($) {
       xaxis: {
         position: 'bottom',
         tickDecimals: 0,
-        tickSize: 1
+        tickSize: 1,
+        min: 0
       },
       yaxis: {
         ticks: getTicks(),
