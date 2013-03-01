@@ -1303,7 +1303,9 @@
         if(activeSlide !== 'undefined'){
           for(var i = 0; i < activeSlide.querySelectorAll('.send').length;i++) {
             //send to remotes
-            var remoteMarkup = JSON.stringify({remoteMarkup : encodeURIComponent(activeSlide.querySelectorAll('.send')[i].outerHTML)});
+            var outerHtml = activeSlide.querySelectorAll('.send')[i].outerHTML;
+            outerHtml = outerHtml.replace(/'/g, "&#39;");
+            var remoteMarkup = JSON.stringify({remoteMarkup : encodeURIComponent(outerHtml)});
             this.connect(remoteMarkup);
           }
         }
