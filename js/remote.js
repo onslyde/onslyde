@@ -63,7 +63,7 @@ window.addEventListener('updateOptions', function(e) {
     nice.disabled = false;
     option1.value = e.option1;
     option2.value = e.option2;
-    wtf.value = 'WTF!';
+    wtf.value = 'Thumbs Down!';
     nice.value = 'Nice!';
     //voteLabel.style.opacity = 1;
     option1.style.opacity = 1;

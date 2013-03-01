@@ -6,7 +6,7 @@ window.addEventListener('clearRoute', function(e) {
 
 window.addEventListener('wtf', function(e) {
    var wtf = document.querySelector("#wtf");
-   wtf.innerHTML = "WTF!";
+   wtf.innerHTML = "Thumbs Down!";
    if(wtf){
       wtf.className = "show-wtf transition";
       setTimeout(function(){wtf.className = "hide-wtf transition"},800)
@@ -16,7 +16,7 @@ window.addEventListener('wtf', function(e) {
 window.addEventListener('nice', function(e) {
 //    console.log('nice');
     var nice = document.querySelector("#nice");
-    nice.innerHTML = "Nice Dude!";
+    nice.innerHTML = "Nice!";
     if(nice){
         nice.className = "show-nice nice transition";
         setTimeout(function(){nice.className = "hide-nice transition"},800)
