@@ -78,6 +78,10 @@ http://www.youtube.com/watch?v=n-7Xu75T2bU
 <li>You now have a private session for your presentation.</li>
 </ul>
 
+#Supported Browsers
+The slide deck currently has only been tested with Chrome. 
+The audience remote controls have been tested on many mobile browsers.
+
 #Hosting/Uploading
 Since there can be a delay in the data route from the audience remote control, then to the ws server, 
 and then to the slide deck on your computer, I will happily host your HTML slide deck on the onslyde server. 
