@@ -1,34 +1,34 @@
 
 
 window.addEventListener('clearRoute', function(e) {
-   slidfast.slides.clearRoute();
+  slidfast.slides.clearRoute();
 }, false);
 
 window.addEventListener('wtf', function(e) {
-   var wtf = document.querySelector("#wtf");
-   wtf.innerHTML = "Thumbs Down!";
-   if(wtf){
-      wtf.className = "show-wtf transition";
-      setTimeout(function(){wtf.className = "hide-wtf transition"},800)
-   }
+  var wtf = document.querySelector("#wtf");
+  wtf.innerHTML = "Thumbs Down!";
+  if(wtf){
+    wtf.className = "show-wtf transition";
+    setTimeout(function(){wtf.className = "hide-wtf transition"},800)
+  }
 }, false);
 
 window.addEventListener('nice', function(e) {
 //    console.log('nice');
-    var nice = document.querySelector("#nice");
-    nice.innerHTML = "Nice!";
-    if(nice){
-        nice.className = "show-nice nice transition";
-        setTimeout(function(){nice.className = "hide-nice transition"},800)
-    }
+  var nice = document.querySelector("#nice");
+  nice.innerHTML = "Nice!";
+  if(nice){
+    nice.className = "show-nice nice transition";
+    setTimeout(function(){nice.className = "hide-nice transition"},800)
+  }
 }, false);
 
 window.addEventListener('slideEvent', function(e) {
-    if(e.action === 'next'){
-        slidfast.slides.nextSlide();
-    }else if (e.action === 'previous'){
-        slidfast.slides.prevSlide();
-    }
+  if(e.action === 'next'){
+    slidfast.slides.nextSlide();
+  }else if (e.action === 'previous'){
+    slidfast.slides.prevSlide();
+  }
 }, false);
 
 var barChart = (function($) {

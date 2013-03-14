@@ -1024,7 +1024,7 @@
         var min = 255;
         var max = 999;
         if(!localStorage['onslyde.attendeeIP']){
-           aip = createRandom() + '.' + createRandom() + '.' + createRandom() + '.' + createRandom();
+          aip = createRandom() + '.' + createRandom() + '.' + createRandom() + '.' + createRandom();
           localStorage['onslyde.attendeeIP'] = aip;
         }else{
           aip = localStorage['onslyde.attendeeIP'];
@@ -1049,7 +1049,7 @@
         ws.onopen = function() {
           isopen = true;
           //basic auth until we get something better
-//          console.log('sent onopen' + username);
+          console.log('sent initString ' + initString);
           slidfast.ws._send('user:'+username);
 
           if(initString){
@@ -1071,7 +1071,6 @@
           if(m.data.indexOf('sessionID":"' + onslyde.sessionID) > 0){
             try{
               //avoid use of eval...
-
               var event = (m.data);
               event = (new Function("return " + event))();
               event.onslydeEvent.fire();
@@ -1090,7 +1089,7 @@
       },
 
       _onerror : function(e) {
-        console.log(e);
+//        console.log(e);
       },
 
       _send:function (message) {
@@ -1138,20 +1137,28 @@
           slidfast.slides.updateDeck(e.wsCount,e.pollCount);
         }, false);
 
+
+        window.addEventListener('unload', function(e) {
+          this.connect('::disconnect::');
+        }, false);
+
         this.checkOptions();
-        this.updateRemotes();
-//            slidfast.ui.slideTo(activeSlide);
 
         this.connect('::connect::');
+        setTimeout(function(){slidfast.slides.updateRemotes();},1000);
       },
 
       connect : function(initString) {
         //ws connect
 //        console.log('connect',initString);
-        if(!ws){
-          slidfast.ws.connect(null,initString,csessionID);
-        }else{
-          slidfast.ws._send(initString,csessionID);
+        try {
+          if (!ws) {
+            slidfast.ws.connect(null, initString, csessionID);
+          } else {
+            slidfast.ws._send(initString, csessionID);
+          }
+        } catch (e) {
+          console.log('error',e)
         }
       },
 
@@ -1222,7 +1229,7 @@
 
           if(activeSlide.getAttribute("data-option") === 'master' &&
             activeSlide.getAttribute("data-route") === null && totalVotes > 0) {
-            //console.log('decideroute');
+//            console.log('decideroute');
             this.decideRoute();
           }
 
@@ -1284,6 +1291,7 @@
 
           activeSlide = futureSlides.shift();
 
+          activeOptions = [];
           this.checkOptions();
           this.updateRemotes();
 
@@ -1291,7 +1299,8 @@
           currentVotes = {};
           totalVotes = 0;
 
-          this.sendMarkup()
+
+          this.sendMarkup();
 
         } else {
           //eop
@@ -1429,18 +1438,17 @@
       },
 
       updateRemotes : function() {
-        var activeOptionsString = 'activeOptions:' + activeOptions;
-        //console.log('===========' + activeOptions.length);
+        var activeOptionsString;
+
         if(activeOptions.length >= 1){
-          if(!ws){
-            //console.log('no conn');
-            slidfast.ws.connect(null,activeOptionsString);
-          }else{
-            //console.log('conn');
-            slidfast.ws._send(activeOptionsString);
-          }
+          activeOptionsString = 'activeOptions:' + activeOptions;
+        }else{
+          activeOptionsString = 'activeOptions:null,null';
         }
 
+        this.connect(activeOptionsString);
+        //clear options after sending
+//        activeOptions = [];
       },
 
       optionVote : function(vote, activeSlide) {
@@ -1456,7 +1464,6 @@
 
         }
         //}
-        ////console.log(vote + ' ' + currentVotes[vote]);
 
         for (var i = 0; i < activeOptions.length; i++) {
           if(currentVotes.hasOwnProperty(activeOptions[i]))

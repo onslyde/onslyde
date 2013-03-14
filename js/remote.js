@@ -3,6 +3,7 @@ var option2 = document.querySelector('#option2');
 var wtf = document.querySelector('#wtf');
 var nice = document.querySelector('#nice');
 var voteLabel = document.querySelector('#vote-label');
+var voted;
 //todo make this unique user for session management/voter registration
 //var ws = slidfast.ws.join('client:anonymous2');
 
@@ -10,6 +11,7 @@ disablePoll();
 
 option1.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option1', 'vote']);
+  console.log('option1.value',option1.value);
   return sendVote(event,option1.value);
 };
 
@@ -19,7 +21,7 @@ option2.onclick = function(event) {
 };
 
 function sendVote(event,option){
-
+  voted = true;
   if(option){
     ws.send('vote:' + option);
   }
@@ -55,22 +57,27 @@ function disablePoll(){
 }
 
 window.addEventListener('updateOptions', function(e) {
-  //quick check to make sure we don't re-enable on polling clients
-  if(option1.value != e.option1){
-    option1.disabled = false;
-    option2.disabled = false;
-    wtf.disabled = false;
-    nice.disabled = false;
-    option1.value = e.option1;
-    option2.value = e.option2;
-    wtf.value = 'Thumbs Down!';
-    nice.value = 'Nice!';
-    //voteLabel.style.opacity = 1;
-    option1.style.opacity = 1;
-    option2.style.opacity = 1;
-    wtf.style.opacity = 1;
-    nice.style.opacity = 1;
-    voteLabel.innerHTML = 'Vote!';
+  //quick check to make sure we don't re-enable on polling clients and disabling on null options
+  if(e.option1 !== 'null' && e.option2 !== 'null'){
+    if((option1.value != e.option1 && option2.value != e.option2)){
+      option1.disabled = false;
+      option2.disabled = false;
+      wtf.disabled = false;
+      nice.disabled = false;
+      option1.value = e.option1;
+      option2.value = e.option2;
+      wtf.value = 'Thumbs Down!';
+      nice.value = 'Nice!';
+      //voteLabel.style.opacity = 1;
+      option1.style.opacity = 1;
+      option2.style.opacity = 1;
+      wtf.style.opacity = 1;
+      nice.style.opacity = 1;
+      voteLabel.innerHTML = 'Vote!';
+      voted = false;
+    }
+  }else{
+    disablePoll();
   }
 }, false);
 
