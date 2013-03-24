@@ -1,5 +1,5 @@
 #Details of onslyde
-At its core, the concept is simple. Attendees connect to a WebSocket server, the presenter sends them vote options at certain points during her presentation and whoever decides to connect can have anonymous interactions with the presenter. Participants may also give a "thumb up" or "thumb down" during any slide to show that they approve or disapprove of the content on a given slide. This allows for a very fine grained level of anonymous interaction.
+At its core, the concept is simple. Attendees connect to a server, the presenter sends them vote options at certain points during her presentation and whoever decides to connect can have anonymous interactions with the presenter. Participants may also give a "thumb up" or "thumb down" during any slide to show that they approve or disapprove of the content on a given slide. This allows for a very fine grained level of anonymous interaction.
  
 Beyond the simplistic parts of interacting with the slide deck, I wanted the presenter to actually have the ability of tailoring their talk to the "collective wisdom" of the audience. So, the presenter has the ability of forking their slides and providing 2 tracks of content based on the audience vote. The poll and tracks are setup declaratively as follows:
 ```html
@@ -82,14 +82,8 @@ http://www.youtube.com/watch?v=n-7Xu75T2bU
 The slide deck currently has only been tested with Chrome. 
 The audience remote controls have been tested on many mobile browsers.
 
-#Hosting/Uploading
-Since there can be a delay in the data route from the audience remote control, then to the ws server, 
-and then to the slide deck on your computer, I will happily host your HTML slide deck on the onslyde server. 
-Send a pull request to this repo:
-<ul>
-<li>Make sure it's in a directory that is unique to your talk. (e.g. "/mytalk2013")</li>
-<li>Feel free to rebrand the remote for the audience with your twitter handle etc... and put it in the folder above.</li>
-</ul>
+#Custom Remote
+Feel free to rebrand the remote for the audience with your twitter handle etc... Send a pull request and I'll add it. 
 
 # License
 
