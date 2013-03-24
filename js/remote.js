@@ -58,7 +58,7 @@ function disablePoll(){
 
 window.addEventListener('updateOptions', function(e) {
   //quick check to make sure we don't re-enable on polling clients and disabling on null options
-  if(e.option1 !== 'null' && e.option2 !== 'null'){
+  if(e.option1 !== undefined && e.option1 !== 'null' && e.option2 !== 'null'){
     if((option1.value != e.option1 && option2.value != e.option2)){
       option1.disabled = false;
       option2.disabled = false;
@@ -79,11 +79,34 @@ window.addEventListener('updateOptions', function(e) {
   }else{
     disablePoll();
   }
+
+
 }, false);
 
 window.addEventListener('remoteMarkup', function(e) {
-  var markup = jQuery.parseJSON(e.markup)
+  var markup = jQuery.parseJSON(e.markup);
   document.getElementById('from-slide').innerHTML = decodeURIComponent(markup.remoteMarkup);
+}, false);
+
+
+window.addEventListener('roulette', function(e) {
+  var rouletteDiv = document.getElementById('roulette'),
+    timer1,
+    timer2;
+  rouletteDiv.style.display = 'block';
+  if(!e.winner){
+    //simple state check for multiple raffles on the same session
+    if(rouletteDiv.style.backgroundColor !== 'yellow'){
+      rouletteDiv.innerHTML = "<p>calculating...</p>";
+      timer1 = setTimeout(function(){rouletteDiv.innerHTML = "<p>sorry! maybe next time :)</p>";},5000);
+    }
+
+  }else if(e.winner){
+    setTimeout(function(){
+      rouletteDiv.style.backgroundColor = 'yellow';
+      rouletteDiv.innerHTML = "<p>WINNER!!...</p>";
+    },5000);
+  }
 }, false);
 
 function getParameterByName(name) {
