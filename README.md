@@ -1,3 +1,7 @@
+#Watch the video
+
+[![ScreenShot](images/onslyde-vid1.PNG)](http://www.youtube.com/watch?v=SidOO_hgSfI&hd=1)
+
 #Details of onslyde
 At its core, the concept is simple. Attendees connect to a server, the presenter sends them vote options at certain points during her presentation and whoever decides to connect can have anonymous interactions with the presenter. Participants may also give a "thumb up" or "thumb down" during any slide to show that they approve or disapprove of the content on a given slide. This allows for a very fine grained level of anonymous interaction.
  
