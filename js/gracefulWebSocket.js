@@ -12,8 +12,27 @@ window.addEventListener('load', function (e) {
   ws = slidfast.ws.connect(ws);
 }, false);
 
-(function ($) {
+function buildFallbackURL(current_url)
+{
+    var WS_URL = {
+        protocol    :   "ws",
+        ip_address  :   "107.22.176.73",
+        port        :   "8081"
+    };
 
+    // If websockets enabled, the fallback url will be the default onslyde URL.
+    var ONSLYDE_URL = "http://onslyde.com";
+    
+    var ws_url = WS_URL.protocol 
+        + "://" + WS_URL.ip_address + ":" + WS_URL.port;
+    return (current_url === ws_url) ? ONSLYDE_URL :
+        current_url
+            .replace("ws:","http:")     // If no websockets, replace current
+            .replace("wss:","https:")   // websocket protocol with congruent
+            .replace(WS_URL.port,"8080"); // http protocol, and alter the port
+}
+
+(function ($) {
   $.extend({
     gracefulWebSocket: function (url, options) {
       // Default properties
@@ -21,9 +40,9 @@ window.addEventListener('load', function (e) {
         keepAlive: false,		// not implemented - should ping server to keep socket open
         autoReconnect: false,	// not implemented - should try to reconnect silently if socket is closed
         fallback: true,			// not implemented - always use HTTP fallback if native browser support is missing
-        fallbackSendURL: url === 'ws://107.22.176.73:8081' ? 'http://onslyde.com' : url.replace('ws:', 'http:').replace('wss:', 'https:').replace('8081','8080'),
+        fallbackSendURL: buildFallbackURL(url),
         fallbackSendMethod: 'POST',
-        fallbackPollURL: url === 'ws://107.22.176.73:8081' ? 'http://onslyde.com' : url.replace('ws:', 'http:').replace('wss:', 'https:').replace('8081','8080'),
+        fallbackPollURL: buildFallbackURL(url),
         fallbackPollMethod: 'GET',
         fallbackOpenDelay: 100,	// number of ms to delay simulated open event
         fallbackPollInterval: 3000,	// number of ms between poll requests
