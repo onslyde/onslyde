@@ -1060,9 +1060,7 @@
 
         ws.onopen = function () {
           isopen = true;
-//           console.log('onopen',initString,typeof initString !== 'undefined')
           onslyde.ws._send('user:' + username);
-
           if (typeof initString !== 'undefined') {
             onslyde.ws._send(initString);
           }
@@ -1197,6 +1195,8 @@
         try {
           if (!ws) {
             onslyde.ws.connect(null, initString, csessionID);
+            //todo - quit using settimeouts and start using promises for connection
+            setTimeout(function(){onslyde.slides.sendMarkup();},1000);
           } else {
             onslyde.ws._send(initString, csessionID);
           }
