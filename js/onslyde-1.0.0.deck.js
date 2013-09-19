@@ -1375,11 +1375,15 @@
       sendMarkup : function() {
         // see if there's anything on the new slide to send to remotes EXPERIMENTAL
         if(activeSlide !== 'undefined'){
+          var allSend = "";
           for(var i = 0; i < activeSlide.querySelectorAll('.send').length;i++) {
             //send to remotes
             var outerHtml = activeSlide.querySelectorAll('.send')[i].outerHTML;
-            outerHtml = outerHtml.replace(/'/g, "&#39;");
-            var remoteMarkup = JSON.stringify({remoteMarkup : encodeURIComponent(outerHtml)});
+            allSend += outerHtml;
+          }
+          if(allSend.length > 0) {
+            allSend = allSend.replace(/'/g, "&#39;");
+            var remoteMarkup = JSON.stringify({remoteMarkup : encodeURIComponent(allSend)});
             this.connect(remoteMarkup);
           }
         }
@@ -1758,5 +1762,4 @@
 
   })();
 })(window, document);
-
 
