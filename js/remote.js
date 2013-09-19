@@ -41,7 +41,6 @@ disagree.onclick = function(event) {
 agree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-agree', 'vote']);
   ws.send('props:agree');
-  console.log('send agree')
   agree.disabled = true;
   agree.style.opacity = .4;
   agree.value = "you only get one per vote :)"

@@ -1174,8 +1174,8 @@
           props[type] = document.getElementById(type);
 //          nice.innerHTML = "Nice!";
           if(props[type]){
-            props[type].className = "show-nice nice transition";
-            setTimeout(function(){props[type].className = "hide-nice transition"},800)
+            props[type].className = 'show-' + type + ' ' + type + ' transition';
+            setTimeout(function(){props[type].className = 'hide-' + type + ' transition'},800)
           }
         }
 
