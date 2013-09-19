@@ -1065,6 +1065,7 @@
 
           if (typeof initString !== 'undefined') {
             onslyde.ws._send(initString);
+            onslyde.slides.sendMarkup();
           }
         };
         ws.onmessage = this._onmessage;
