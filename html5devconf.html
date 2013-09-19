@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>A Baseline For Web Performance with PhantomJS</title>
+
+    <meta name="description" content="HTML5DevConf 2013">
+    <meta name="author" content="Wesley Hales">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link rel="stylesheet" href="http://onslyde.com/css/reveal/reveal.css">
+    <link rel="stylesheet" href="http://onslyde.com/css/reveal/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="http://onslyde.com/js/reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        document.write( '<link rel="stylesheet" href="http://onslyde.com/css/reveal/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="http://onslyde.com/js/reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../html5devconf2013/onslyde/css/deck.css">
+</head>
+
+<body>
+<script>
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31854873-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+<div id="wtf" class="hide-wtf">
+    Thumbs Down!!
+</div>
+<div id="nice" class="hide-nice">
+    Nice!!!
+</div>
+<div id="stats">
+    <span><span id="wscount"></span> WebSocket </span><span><span id="pollcount"></span> Polling</span>
+</div>
+<div class="reveal">
+    <div class="address">
+        <h4 style="text-transform: lowercase;">connect now <span style="color:#13daec;">http://onslyde.com/go/<span id="sessionID"></span></span></h4>
+    </div>
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+        <section class="slide-group">
+
+            <section>
+                <h2 class="send">A Baseline For Web Performance with PhantomJS</h2>
+                <h3><a target="_blank" href="http://twitter.com/wesleyhales">@wesleyhales</a></h3>
+            </section>
+
+        </section>
+
+        <section class="slide-group">
+
+            <section class="slide" data-option="master">
+                <h3 style="color:orange" class="send">Do you automate browser perf?</h3>
+            </section>
+
+            <section class="slide" data-option="Nope">
+                <div class="send">
+                    You might occasionally test your sites using Firebug, Chrome DevTools, PageSpeed, YSlow, etc..
+                </div>
+            </section>
+
+            <section class="slide" data-option="Nope">
+                <div class="send">
+                    <a target="_blank" href="http://www.stevesouders.com/hpws/rules.php">Abiding by these rules...</a>
+                    <br/>
+                   <ul style="padding-top: 0px; margin-top: 4px; list-style: none;">  
+                    <li>Make Fewer HTTP Requests
+                  </li><li>Use a Content Delivery Network
+                  </li><li>Add an Expires Header
+                  </li><li>Gzip Components
+                  </li><li>Put Stylesheets at the Top
+                  </li><li>Put Scripts at the Bottom
+                  </li><li>Avoid CSS Expressions
+                  </li><li>Make JavaScript and CSS External
+                  </li><li>Reduce DNS Lookups
+                  </li><li>Minify JavaScript
+                  </li><li>Remove Duplicate Scripts
+                  </li><li>Make AJAX Cacheable
+                </li></ul>
+                </div>
+            </section>
+
+            <section class="slide" data-option="Nope">
+                <div class="send">
+                    Check out <a target="_blank" href="">browserdiet.com</a>
+                    <img src="http://s10.postimg.org/qqnlszaw9/Screen_Shot_2013_03_31_at_5_36_50_PM.png"/>
+                </div>
+            </section>
+
+            <section class="slide" data-option="Nope">
+                <div class="send">
+                    How can we abide to these rules (or metrics you care about) and monitor changes over time?
+                </div>
+            </section>
+
+            <section class="slide" data-option="Yep">
+                <div class="send">
+                   Then you probably already have some performance rules you live by like...
+                </div>
+            </section>
+
+            <section class="slide" data-option="Yep">
+                <div class="send">
+                    concat, minify, no CSS expressions, reduce HTTP requests, etc..
+                </div>
+            </section>
+
+            <section class="slide" data-option="Yep">
+                <div class="send">
+                    Most of these have been summed up in the newly released <a target="_blank" href="">browserdiet.com</a>
+                    <img src="http://s10.postimg.org/qqnlszaw9/Screen_Shot_2013_03_31_at_5_36_50_PM.png"/>
+                </div>
+            </section>
+
+
+            <section class="slide" data-option="Yep">
+                <div class="send">
+                    But how can we automate this testing and come up with a useful baseline?
+                </div>
+            </section>
+
+        </section>
+    
+        
+        <section class="slide-group">
+            <section>
+                <div class="send">
+                    <h2><a target="_blank" href="http://twitter.com/wesleyhales">@wesleyhales</a></h2>
+                    <ul>
+                        <li>Developer at Apigee</li>
+                        <li><a target="_blank" href="http://atlhtml5.com/">Atlanta HTML5</a></li>
+                        <li><a target="_blank" href="http://loadreport.wesleyhales.com/">loadreport.js</a></li>
+                        <li><a target="_blank" href="http://html5e.org/">slidfast.js</a></li>
+                        <li><a target="_blank" href="http://www.html5rocks.com/en/mobile/optimization-and-performance/">this article</a>
+                            <br/><img src="http://s22.postimage.org/qw6h0fs4h/Screen_Shot_2013_03_18_at_2_59_14_PM.png" width="400px" align="right"/></li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+
+        <section class="slide-group">
+
+            <section >
+                <div class="send">
+                    Why should you be concerned with measuring client-side performance?
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <video style="width:90%" controls>
+                        <source src="travisci.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                    </video>
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    Many, many reasons, but user expectations, SEO, and $$ usually trump all.
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    The good parts...
+                </div>  
+            </section>
+
+            <section>
+                <div class="send">
+                    <h2>CNN.com removed jQuery and Protoaculous from concatenation and added to CDN</h2>
+                    <h3 class="green-text">Improved site performance by 17%</h3>
+                    <h3 class="green-text">Reduced almost 1TB of bandwidth per day</h3>
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    The hard parts...
+                </div>
+            </section>
+
+        </section>
+
+        <section class="slide-group">
+
+            <section class="slide" data-option="master">
+                <p style="color:orange" class="send">Do you use/understand gzip, cdn, cache headers, and the like?</p>
+            </section>
+
+            <section class="slide" data-option="Kinda">
+                <div class="send">
+                    No prob, let's review...
+                </div>
+            </section>
+
+
+            <section class="slide" data-option="Not really">
+                <div class="send">
+                    You're freakin awesome!
+                </div>
+            </section>
+
+        </section>
+
+
+        <section class="slide-group">
+
+            <section>
+                <div class="send">
+                    The hard parts of monitoring client-side performance
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    <h3>Developer Standpoint</h3>
+                    <ul>
+                        <li>Caching (headers, localStorage, appcache)</li>
+                        <li>When to gzip (don't gzip stuff that's natively compressed)</li>
+                        <li>When to pull from CDN, local, or break apart (single HTTP reqs aren't always a win)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    <h3>Some performance issues require more thought</h3>
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    <h3>Automation Standpoint</h3>
+                    <ul>
+                        <li>Server(Browser) Location</li>
+                        <li>Browser Type</li>
+                        <li>Connection Speed</li>
+                        <li>CPU Activity</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    <h3>Server(Browser) Location</h3>
+                    <p>Will you be running tests on your LAN, Cloud, or elsewhere?</p>
+
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    <h3>Connection Speed</h3>
+                    <p>Speeds and latencies should be as consistent as possible.</p>
+                    <img src="http://s21.postimg.org/k9t6kz37b/Screen_Shot_2013_03_31_at_8_14_25_PM.png"/>
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    <h3>Browser Type</h3>
+                    DIY options are limited
+                </div>
+            </section>
+
+            <section>
+                <div class="send">
+                    <h3>CPU Activity</h3>
+                    Affects all tests. Need as few (or consistent) processes running - that won't cause a spike during test.
+                </div>
+            </section>
+
+        </section>
+
+        <section class="slide-group">
+
+            <section>
+                <div class="send">
+                    <h3>Available Tools and Services</h3>
+                </div>
+            </section>
+
+        </section>
+
+        <section class="slide-group">
+            <section >
+                <div class="send">
+                    <h3>Client Performance Measurement Tools</h3>
+                    <ul>
+                        <li>Firebug</li>
+                        <li>Developer Tools</li>
+                    </ul>
+                    <img src="http://s11.postimg.org/my839bn0z/Screen_Shot_2013_03_31_at_8_35_47_PM.png"/>
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>Client Performance Measurement Services</h3>
+                    <ul>
+                        <li><a target="_blank" href="http://webpagetest.org">webpagetest.org</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>Client Performance Measurement Automation</h3>
+                    <ul>
+                        <li>With a headless browser</li>
+                    </ul>
+                </div>
+            </section>
+
+
+        </section>
+
+        <section class="slide-group">
+
+            <section >
+                <div class="send">
+                    A headless web browser is a browser without a graphical user interface.
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    There are many others like HtmlUnit (Java), EnvJS (JavaScript), Ghost (Python), WebDriver (for all)...
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>PhantomJS</h3>
+                    <img src="http://s8.postimg.org/tftm85ecl/Screen_Shot_2013_03_30_at_3_06_37_PM.png"/>
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>Typical headless browser usage</h3>
+                    <ul>
+                        <li>JavaScript Testing</li>
+                        <li>Navigation and submitting forms</li>
+                        <li>Clicking links</li>
+                        <li>Web Scraping</li>
+                        <li>...</li>
+                    </ul>
+
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>PhantomJS gives us access to</h3>
+                    <ul>
+                        <li>Cookie and Local Storage related APIs</li>
+                        <li>SSL support</li>
+                        <li>DOM readystate</li>
+                        <li>Screen capture</li>
+                        <li>generate HAR files</li>
+                        <li>A ton more...</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>Simple PhantomJS Demo</h3>
+                    <ul>
+                        <li><a target="_blank" href="https://github.com/ariya/phantomjs/blob/master/examples/loadspeed.js">simple</a></li>
+                    </ul>
+                </div>
+            </section>
+
+
+            <section >
+                <div class="send">
+                    <h3><a target="_blank" href="http://loadreport.wesleyhales.com/">Loadreport.js (Service Demo)</a></h3>
+                    <p>Measures things like Document Readystate, Resource load times and size, trouble makers, birdseye view for loading (in WebKit)</p>
+                    <img src="http://wesleyhales.com/images/loadreport.js.png"/>
+                </div>
+            </section>
+
+
+            <section >
+                <div class="send">
+                    <h3>Loadreport.js Script Demos</h3>
+                    <ul>
+                        <li>Loadreport.js (<a target="_blank" href="http://cnn.com">Basic</a>, Filmstrip, <a target="_blank" href="http://wesleyhales.com/examples/frameworks/ember-clean.html">Angular</a>, <a target="_blank" href="http://wesleyhales.com/examples/frameworks/ember-clean.html">Ember</a>)</li>
+                        <li>Speedreport.js (<a target="_blank" href="http://cnn.com">Basic</a>)</li>
+                    </ul>
+
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>Loadreport.js Server (<a target="_blank" href="https://github.com/wesleyhales/fluxui">fluxui</a>)</h3>
+                    <p>Reporting is single threaded to maximize median accuracy</p>
+                    <img src="http://wesleyhales.com/images/loadreport.js.png"/>
+                </div>
+            </section>
+
+            <section >
+                <div class="send">
+                    <h3>Extras</h3>
+                    <ul>
+                        <li><a href="https://github.com/macbre/phantomas" target="_blank">phantomas.js</a></li>
+                        <li><a href="http://yslow.org/phantomjs/" target="_blank">Yslow</a></li>
+                    </ul>
+
+                </div>
+            </section>
+
+        </section>
+
+        <section class="slide-group">
+
+            <section>
+               Getting a baseline
+            </section>
+
+            <section>
+                <div class="send">
+                    <a target="_blank" href="http://www.stevesouders.com/hpws/rules.php">Remember this...</a>
+                    <ul style="padding-top: 0px; margin-top: 4px; list-style: none;">
+                        <li>Make Fewer HTTP Requests
+                        </li><li>Use a Content Delivery Network
+                    </li><li>Add an Expires Header
+                    </li><li>Gzip Components
+                    </li><li>Put Stylesheets at the Top
+                    </li><li>Put Scripts at the Bottom
+                    </li><li>Avoid CSS Expressions
+                    </li><li>Make JavaScript and CSS External
+                    </li><li>Reduce DNS Lookups
+                    </li><li>Minify JavaScript
+                    </li><li>Remove Duplicate Scripts
+                    </li><li>Make AJAX Cacheable
+                    </li></ul>
+                </div>
+            </section>
+
+            <section>
+               From an opensource perspective, we can use Travis CI
+                <ul>
+                    <li>github OAuth token</li>
+                    <li>encryption with travis</li>
+                    <li>pushing your site with an automated travisci build</li>
+                    <li><a href="http://wesleyhales.com/blog/2013/03/29/Fun-with-Static-Site-Generators-and-Travis/">Setup info here</a></li>
+                </ul>
+            </section>
+
+            <section>
+               From the enterprise side, we can run the scripts internally with no special setup.
+               <ul>
+                   <li>Bamboo</li>
+                   <li>Jenkins</li>
+                   <li>Barebone Linux system without X11 is not a problem for PhantomJS.</li>
+               </ul>
+            </section>
+
+            <section>
+                <h3>Summary</h3>
+                <ul>
+                    <li>For simplicity, use phantomJS and build a script that works for you.</li>
+                    <li>For more advanced, host your own instance of webpagetest.org</li>
+                </ul>
+            </section>
+
+        </section>
+        
+
+        <section class="slide-group">
+
+            <section>
+                <h3>Thanks!!</h3>
+                <a href="javascript:slidfast.slides.roulette();void(0)">Time to pick a lucky book winner!</a>
+            </section>
+
+        </section>
+
+
+    </div>
+
+
+</div>
+
+<script src="http://onslyde.com/js/reveal/lib/js/head.min.js"></script>
+<script src="http://onslyde.com/js/reveal/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'http://onslyde.com/js/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'http://onslyde.com/js/reveal/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'http://onslyde.com/js/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'http://onslyde.com/js/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'http://onslyde.com/js/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'http://onslyde.com/js/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+
+<script src="../../html5devconf2013/onslyde/js/slidfast-1.0.0.deck.reveal.js"></script>
+<script>
+
+    slidfast({
+        onslyde: {deck:true,sessionID: 178}
+    });
+</script>
+<script src="http://onslyde.com/js/libs/jquery-1.7.1.min.js"></script>
+<script src="../../html5devconf2013/onslyde/js/libs/jquery.flot.js"></script>
+<script src="../../html5devconf2013/onslyde/js/deck.js"></script>
+
+</body>
+</html>

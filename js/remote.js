@@ -1,7 +1,7 @@
 var option1 = document.querySelector('#option1');
 var option2 = document.querySelector('#option2');
-var wtf = document.querySelector('#wtf');
-var nice = document.querySelector('#nice');
+var disagree = document.querySelector('#disagree');
+var agree = document.querySelector('#agree');
 var voteLabel = document.querySelector('#vote-label');
 var voted;
 //todo make this unique user for session management/voter registration
@@ -29,21 +29,22 @@ function sendVote(event,option){
   return false;
 }
 
-wtf.onclick = function(event) {
-  _gaq.push(['_trackEvent', 'onslyde-wtf', 'vote']);
-  ws.send('vote:wtf');
-  wtf.disabled = true;
-  wtf.style.opacity = .4;
-  wtf.value = "you only get one per vote :)"
+disagree.onclick = function(event) {
+  _gaq.push(['_trackEvent', 'onslyde-disagree', 'vote']);
+  ws.send('props:disagree');
+  disagree.disabled = true;
+  disagree.style.opacity = .4;
+  disagree.value = "you only get one per vote :)"
   return false;
 };
 
-nice.onclick = function(event) {
-  _gaq.push(['_trackEvent', 'onslyde-nice', 'vote']);
-  ws.send('vote:nice');
-  nice.disabled = true;
-  nice.style.opacity = .4;
-  nice.value = "you only get one per vote :)"
+agree.onclick = function(event) {
+  _gaq.push(['_trackEvent', 'onslyde-agree', 'vote']);
+  ws.send('props:agree');
+  console.log('send agree')
+  agree.disabled = true;
+  agree.style.opacity = .4;
+  agree.value = "you only get one per vote :)"
   return false;
 };
 
@@ -62,17 +63,17 @@ window.addEventListener('updateOptions', function(e) {
     if((option1.value != e.option1 && option2.value != e.option2)){
       option1.disabled = false;
       option2.disabled = false;
-      wtf.disabled = false;
-      nice.disabled = false;
+      disagree.disabled = false;
+      agree.disabled = false;
       option1.value = e.option1;
       option2.value = e.option2;
-      wtf.value = 'Thumbs Down!';
-      nice.value = 'Nice!';
+      disagree.value = 'Thumbs Down!';
+      agree.value = 'agree!';
       //voteLabel.style.opacity = 1;
       option1.style.opacity = 1;
       option2.style.opacity = 1;
-      wtf.style.opacity = 1;
-      nice.style.opacity = 1;
+      disagree.style.opacity = 1;
+      agree.style.opacity = 1;
       voteLabel.innerHTML = 'Vote!';
       voted = false;
     }
@@ -84,7 +85,7 @@ window.addEventListener('updateOptions', function(e) {
 }, false);
 
 window.addEventListener('remoteMarkup', function(e) {
-  var markup = jQuery.parseJSON(e.markup);
+  var markup = JSON.parse(e.markup);
   document.getElementById('from-slide').innerHTML = decodeURIComponent(markup.remoteMarkup);
 }, false);
 

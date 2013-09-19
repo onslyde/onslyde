@@ -2,83 +2,82 @@
 <html lang="en">
 
 <head>
-    <title>Onslyde Remote</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-    <!-- enable full-screen mode -->
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <!-- controls the appearance of the status bar in full-screen mode -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <title>Onslyde Remote</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+  <!-- enable full-screen mode -->
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <!-- controls the appearance of the status bar in full-screen mode -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
 
-    <link href="css/remote.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/remote.css?v=200" media="screen" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
 <script type="text/javascript">
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-31854873-3']);
-    _gaq.push(['_trackPageview']);
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31854873-3']);
+  _gaq.push(['_trackPageview']);
 
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
 
 </script>
 <div id="roulette"></div>
 <div id="browser">
 
-    <h2 id="vote-label">Get Ready!</h2>
-    <nav class="primary">
-        <ul>
-            <li>
-                <input id="option1" class="button" type="submit" value="" />
-                <input id="option2" class="button" type="submit" value="" />
-                <input id="nice" class="button" type="submit" value="Nice!" />
-                <input id="wtf" class="button" type="submit" value="Thumbs Down!"/>
-            </li>
+  <h2 id="vote-label">Get Ready!</h2>
+  <nav class="primary">
+    <ul>
+      <li>
+        <input id="option1" class="button" type="submit" value="" />
+        <input id="option2" class="button" type="submit" value="" />
+        <input id="agree" class="button" type="submit" value="Nice!" />
+        <input id="disagree" class="button" type="submit" value="Thumbs Down!"/>
+      </li>
 
-        </ul>
-    </nav>
+    </ul>
+  </nav>
 
-    <div id="slide-group-container">
+  <div id="slide-group-container">
 
-        <div id="front" class="normal">
+    <div id="front" class="normal">
 
-            <div id="about-page" class="slide">
-                <div id="from-slide">
-                    Hi, This is the onslyde remote. Audience members will connect to your session and see this remote. The content/remote will update as you move through the slides.
-                </div>
-                <p>
-
-                    <br/>
-                    <a href="https://twitter.com/onslyde" target="_blank">Follow @onslyde</a>
-                </p>
-
-            </div>
-
+      <div id="about-page" class="slide">
+        <div id="from-slide">
+          Hi, This is the onslyde remote. Audience members will connect to your session and see this remote. The content/remote will update as you move through the slides.
         </div>
+        <p>
+
+          <br/>
+          <a href="https://twitter.com/onslyde" target="_blank">Follow @onslyde</a>
+        </p>
+
+      </div>
 
     </div>
 
+  </div>
+
 </div>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js" ></script>
-<script type="text/javascript" src="js/remote.js" ></script>
-<script type="text/javascript" src="js/slidfast-1.0.0.deck.reveal.js" ></script>
+<script type="text/javascript" src="js/remote.js?v=200" ></script>
+<script type="text/javascript" src="js/onslyde-1.0.0.deck.js?v=200" ></script>
 <script type="text/javascript">
 
 
-    slidfast({
-        defaultPageID:'about-page',
-        touchEnabled: false,
-        singlePageModel: true,
-        onslyde: {sessionID: (getParameterByName("session") || 167)}
-    });
+  onslyde({
+    defaultPageID:'about-page',
+    touchEnabled: false,
+    singlePageModel: true,
+    deckRemote: {sessionID: (getParameterByName("session") || 167)}
+  });
 
 </script>
-<script type="text/javascript" src="js/gracefulWebSocket.js" ></script>
+<script type="text/javascript" src="js/gracefulWebSocket.js?v=200" ></script>
 
 </body>
 </html>

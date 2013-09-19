@@ -1,56 +1,62 @@
-/**
- * WebSocket with graceful degradation - jQuery plugin
- * @author David Lindkvist
- * @version 0.1
- *
- */
-
 var ws;
 window.addEventListener('load', function (e) {
   // in fallback mode: connect returns a dummy object implementing the WebSocket interface
-  ws = $.gracefulWebSocket('ws://'+ slidfast.ws.ip(window.onslydeSessionID) + ':8081'); // the ws-protocol will automatically be changed to http
-  ws = slidfast.ws.connect(ws);
+  ws = myws().gracefulWebSocket('ws://' + onslyde.ws.ip(onslyde.ws.sessionID()) + ':8081'); // the ws-protocol will automatically be changed to http
+  ws = onslyde.ws.connect(ws);
 }, false);
 
-function buildFallbackURL(current_url)
-{
+function myws() {
+
+  function encodeData(data) {
+    var urlEncodedData = "";
+
+    for (name in data) {
+      urlEncodedData += name + "=" + data[name] + "&";
+    }
+
+    // We remove the last "&" character
+    urlEncodedData = urlEncodedData.slice(0, -1);
+    return urlEncodedData;
+  }
+
+  function buildFallbackURL(current_url)
+  {
     var WS_URL = {
-        protocol    :   "ws",
-        ip_address  :   "107.22.176.73",
-        port        :   "8081"
+      protocol    :   "ws",
+      ip_address  :   "107.22.176.73",
+      port        :   "8081"
     };
 
     // If websockets enabled, the fallback url will be the default onslyde URL.
     var ONSLYDE_URL = "http://onslyde.com";
-    
-    var ws_url = WS_URL.protocol 
-        + "://" + WS_URL.ip_address + ":" + WS_URL.port;
-    return (current_url === ws_url) ? ONSLYDE_URL :
-        current_url
-            .replace("ws:","http:")     // If no websockets, replace current
-            .replace("wss:","https:")   // websocket protocol with congruent
-            .replace(WS_URL.port,"8080"); // http protocol, and alter the port
-}
 
-(function ($) {
-  $.extend({
-    gracefulWebSocket: function (url, options) {
+    var ws_url = WS_URL.protocol
+      + "://" + WS_URL.ip_address + ":" + WS_URL.port;
+    return (current_url === ws_url) ? ONSLYDE_URL :
+      current_url
+        .replace("ws:","http:")     // If no websockets, replace current
+        .replace("wss:","https:")   // websocket protocol with congruent
+        .replace(WS_URL.port,"8080"); // http protocol, and alter the port
+  }
+
+  return{
+    gracefulWebSocket:function (url, options) {
       // Default properties
       this.defaults = {
-        keepAlive: false,		// not implemented - should ping server to keep socket open
-        autoReconnect: false,	// not implemented - should try to reconnect silently if socket is closed
-        fallback: true,			// not implemented - always use HTTP fallback if native browser support is missing
+        keepAlive:false, // not implemented - should ping server to keep socket open
+        autoReconnect:false, // not implemented - should try to reconnect silently if socket is closed
+        fallback:true, // not implemented - always use HTTP fallback if native browser support is missing
         fallbackSendURL: buildFallbackURL(url),
-        fallbackSendMethod: 'POST',
+        fallbackSendMethod:'POST',
         fallbackPollURL: buildFallbackURL(url),
-        fallbackPollMethod: 'GET',
-        fallbackOpenDelay: 100,	// number of ms to delay simulated open event
-        fallbackPollInterval: 3000,	// number of ms between poll requests
-        fallbackPollParams: {}		// optional params to pass with poll requests
+        fallbackPollMethod:'GET',
+        fallbackOpenDelay:100, // number of ms to delay simulated open event
+        fallbackPollInterval:3000, // number of ms between poll requests
+        fallbackPollParams:{}    // optional params to pass with poll requests
       };
-
+      console.log('----', url)
       // Override defaults with user properties
-      var opts = $.extend({}, this.defaults, options);
+      var opts = this.defaults;
 
       /**
        * Creates a fallback object implementing the WebSocket interface
@@ -65,98 +71,124 @@ function buildFallbackURL(current_url)
 
         var pollInterval;
         var openTimout;
-        var posturl = opts.fallbackSendURL + '/go/attendees/vote';
+        var posturl = '';
+
 
         // create WebSocket object
         var fws = {
           // ready state
-          readyState: CONNECTING,
-          bufferedAmount: 0,
-          send: function (data) {
+          readyState:CONNECTING,
+          bufferedAmount:0,
+          send:function (senddata) {
 //                        console.log(data);
             var success = true;
             //replace colon from namespaced websocket data
 
-            vote = data.replace(('vote:'),'');
-//                        data += ' sessionID:' + window.onslydeSessionID + ' ';
-            data = {"vote": vote, "sessionID": window.onslydeSessionID};
-//                        console.log('data',data)
-            $.ajax({
-              async: false, // send synchronously
-              type: opts.fallbackSendMethod,
-              url: posturl,
-              data: data,
-              dataType: 'text',
-              contentType : "application/x-www-form-urlencoded; charset=utf-8",
-              success: pollSuccess,
-              error: function (xhr) {
-                success = false;
-                $(fws).triggerHandler('error');
+            //todo - peak option for polling
+            var vote = '',
+              attendeeIP = localStorage['onslyde.attendeeIP'];
+
+            if (senddata.indexOf('speak:') === 0) {
+              vote = senddata.replace(('speak:'), '');
+              posturl = opts.fallbackSendURL + '/go/attendees/speak';
+              senddata = {"speak":vote, "sessionID":onslyde.ws.sessionID(), "attendeeIP":attendeeIP};
+            } else {
+              if (senddata.indexOf('vote:') === 0) {
+                vote = senddata.replace(('vote:'), '');
+              } else if (senddata.indexOf('props:') === 0) {
+                vote = senddata.replace(('props:'), '');
               }
-            });
-            //alert(posturl);
+
+              if (vote.split(',').length > 0) {
+                //we know/assume there will be 3 items in the array,
+                //with the vote data being the first
+                console.log(vote.split(',')[0])
+                vote = vote.split(',')[0];
+              }
+
+              if (!window['userObject'] || typeof userObject === 'undefined') {
+                var userObject = {
+                  name:'unknown',
+                  email:'unknown'
+                }
+              }
+
+              posturl = opts.fallbackSendURL + '/go/attendees/vote';
+              senddata = {"vote":vote, "sessionID":onslyde.ws.sessionID(), "attendeeIP":attendeeIP, "username":userObject.name, "email":userObject.email};
+            }
+
+            var ai = new onslyde.core.ajax(posturl, function (text, url) {
+              pollSuccess();
+            }, false);
+            ai.doPost(encodeData(senddata));
+
             return success;
           },
-          close: function () {
+          close:function () {
             clearTimeout(openTimout);
             clearInterval(pollInterval);
             this.readyState = CLOSED;
-            $(fws).triggerHandler('close');
           },
-          onopen: function () {},
-          onmessage: function () {},
-          onerror: function () {},
-          onclose: function () {},
-          previousRequest: null,
-          currentRequest: null
+          onopen:function () {
+          },
+          onmessage:function () {
+          },
+          onerror:function () {
+          },
+          onclose:function () {
+          },
+          previousRequest:null,
+          currentRequest:null
         };
 
-        function getFallbackParams() {
+
+        function getFallbackParams(tracked) {
 
           // update timestamp of previous and current poll request
           fws.previousRequest = fws.currentRequest;
           fws.currentRequest = new Date().getTime();
 
-          // extend default params with plugin options
-          return $.extend(opts.fallbackPollParams, {"previousRequest": fws.previousRequest, "currentRequest": fws.currentRequest, "sessionID": window.onslydeSessionID});
+          return  {
+            "previousRequest":fws.previousRequest,
+            "currentRequest":fws.currentRequest,
+            "sessionID":onslyde.ws.sessionID(),
+            "attendeeIP":localStorage['onslyde.attendeeIP'],
+            "tracked":tracked};
         }
 
         /**
          * @param {Object} data
          */
         function pollSuccess(data) {
-
-          // trigger onmessage
-          var messageEvent = {"data" : data};
-          //alert(messageEvent);
+          var messageEvent = {"data":data};
           fws.onmessage(messageEvent);
         }
-        var counter = 0;
-        function poll() {
 
-          $.ajax({
-            type: opts.fallbackPollMethod,
-            url: opts.fallbackPollURL + '/go/attendees/json',
-            dataType: 'text',
-            data: getFallbackParams(),
-            success: pollSuccess,
-            async: false,
-            timeout: 30000,
-            error: function (xhr) {
-              $(fws).triggerHandler('error');
-            }
-          });
+        var counter = 0;
+
+        function poll(tracked) {
+
+          if (tracked !== 'start') {
+            tracked = 'active';
+          }
+
+          var pollData = getFallbackParams(tracked);
+
+          var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/go/attendees/json?' + encodeData(pollData), function (text, url) {
+            pollSuccess(text);
+          }, false);
+          ai.doGet();
+
           counter++;
-          if(counter === 3600){
+          if (counter === 3600) {
             window.clearInterval(pollInterval);
           }
         }
+
         // simulate open event and start polling
         openTimout = setTimeout(function () {
           fws.readyState = OPEN;
-          //fws.currentRequest = new Date().getTime();
-          $(fws).triggerHandler('open');
-          poll();
+          poll('start');
           pollInterval = setInterval(poll, opts.fallbackPollInterval);
         }, opts.fallbackOpenDelay);
 
@@ -165,9 +197,25 @@ function buildFallbackURL(current_url)
       }
 
       // create a new websocket or fallback
-      var ws = window.WebSocket ? new WebSocket(url + '?session=' + window.onslydeSessionID + '&attendeeIP=' + slidfast.ws.getip()) : new FallbackSocket();
-      $(window).unload(function () { ws.close(); ws = null });
+      var ws = ("WebSocket" in window && WebSocket.CLOSED > 2) ? new WebSocket(url + '?session=' + onslyde.ws.sessionID() + '&attendeeIP=' + onslyde.ws.getip()) : new FallbackSocket();
+      var senddata = {"sessionID":onslyde.ws.sessionID(), "attendeeIP":onslyde.ws.getip()};
+      var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/go/attendees/remove', function (text, url) {
+        console.log('remove', text, url)
+      }, false);
+      window.addEventListener("beforeunload", function (e) {
+        ws.close();
+        ws = null;
+        var confirmationMessage = 'thanks!';
+        //disconnect polling client on server
+        if (!("WebSocket" in window)) {
+          ai.doPost(encodeData(senddata));
+        }
+        (e || window.event).returnValue = confirmationMessage;  //Webkit, Safari, Chrome etc.
+
+        return confirmationMessage;
+      });
+
       return ws;
     }
-  });
-})(jQuery);
+  };
+}
