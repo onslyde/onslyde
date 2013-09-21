@@ -1,7 +1,7 @@
 
 
 window.addEventListener('clearRoute', function(e) {
-  slidfast.slides.clearRoute();
+  onslyde.slides.clearRoute();
 }, false);
 
 window.addEventListener('wtf', function(e) {
@@ -25,9 +25,9 @@ window.addEventListener('nice', function(e) {
 
 window.addEventListener('slideEvent', function(e) {
   if(e.action === 'next'){
-    slidfast.slides.nextSlide();
+    onslyde.slides.nextSlide();
   }else if (e.action === 'previous'){
-    slidfast.slides.prevSlide();
+    onslyde.slides.prevSlide();
   }
 }, false);
 
