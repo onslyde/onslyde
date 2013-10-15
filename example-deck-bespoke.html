@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>HTML5 Architecture</title>
+
+    <meta name="description" content="onslyde example">
+    <meta name="author" content="Wesley Hales">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- controls the appearance of the status bar in full-screen mode -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link rel="stylesheet" type="text/css" href="js/libs/bespoke/style.css" />
+    <link rel="stylesheet" type="text/css" href="js/libs/bespoke/themes.css" />
+
+
+
+    <style>
+        .placeholder {
+            height: 125px;
+            width: 85%;
+        }
+    </style>
+</head>
+<body class="coverflow">
+<div id="disagree" class="hide-disagree">
+    Disagree
+</div>
+<div id="agree" class="hide-agree">
+    Agree
+</div>
+<div id="stats">
+    <span><span id="wscount"></span> WebSocket </span><span><span id="pollcount"></span> Polling</span>
+</div>
+
+<div class="address">
+    <h4 style="text-transform: lowercase;">connect now <span style="color:#13daec;">http://onslyde.com/go/<span id="sessionID"></span></span></h4>
+</div>
+<!-- Any section element inside of this container is displayed as a slide -->
+<div id="main">
+    <header>
+        <p class="hidden"><span id="input-method">Press up and down keys</span> to view example themes.</p>
+    </header>
+<article>
+
+        <span class="slide-group">
+
+            <section class="slide">
+                <h2 class="send">onslyde example deck</h2>
+                <h2><a href="http://twitter.com/onslyde">@onslyde</a></h2>
+            </section>
+
+        </span>
+
+        <span class="slide-group">
+
+            <section class="slide">
+                <p class="send">onslyde is a JavaScript based presentation tool that helps you present better.</p>
+            </section>
+
+        </span>
+
+        <span class="slide-group">
+
+            <section class="slide" data-option="master">
+                <h3 style="color:orange" class="send">Does this excite you?</h3>
+            </section>
+
+            <section class="slide" data-option="Yes">
+                <div class="send">
+                    Awesome, then keep going
+                </div>
+            </section>
+
+            <section class="slide" data-option="No Way">
+                <div class="send">
+                    Alrighty, go use Keynote or Powerpoint and pray the audience stays awake ;)
+                </div>
+            </section>
+
+        </span>
+
+
+</article>
+    </div>
+
+<footer>
+    <div class="credits">
+        <a href="http://twitter.com/markdalgleish"><img src="img/profile.jpg" alt="Mark Dalgleish"></a>
+        <p>Lovingly crafted by <a href="http://twitter.com/markdalgleish">@markdalgleish</a></p>
+    </div>
+
+    <div class="themes">
+        <p>
+            <strong>Example Theme<span class="colon">:</span></strong> <span id="theme">Carousel</span>
+        </p>
+        <div id="up-arrow" class="up arrow">^</div>
+        <div id="down-arrow" class="down arrow">^</div>
+    </div>
+
+</footer>
+
+<script src="js/libs/bespoke/bespoke.js"></script>
+<script src="js/libs/bespoke/demo.js"></script>
+<script src="js/deck/onslyde-1.0.0.deck.js"></script>
+<script>
+
+    onslyde({
+        deck: {sessionID: 98, mode: 'bespoke'}
+    });
+</script>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="js/deck/libs/jquery.flot.js"></script>
+<script src="js/deck/deck.js"></script>
+</body>
+</html>

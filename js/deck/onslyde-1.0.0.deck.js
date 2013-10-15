@@ -33,6 +33,8 @@
 
       sessionID = 0,
 
+      sessionMode = 'default',
+
       defaultPageID = null,
 
       focusPage = null,
@@ -122,6 +124,7 @@
         if (deck && deck.sessionID) {
           console.log(deck.sessionID)
           sessionID = deck.sessionID;
+          sessionMode = deck.mode;
           onslyde.slides.init();
         }
 
@@ -1134,9 +1137,11 @@
         csessionID = sessionID;
         futureGroups = toArray(this.groups());
         for (var i = 0; i < futureGroups.length; i++) {
-          futureGroups[i].style.display = 'none';
           var thisGroupSlides = this.groupSlides(futureGroups[i]);
-          if(onslyde.mode === 'default'){
+
+          if(sessionMode === 'default'){
+            futureGroups[i].style.display = 'none';
+
             for (var j = 0; j < thisGroupSlides.length; j++) {
               //todo use classlist
               thisGroupSlides[j].className = 'slide stage-right';
@@ -1181,7 +1186,7 @@
 
         this.checkOptions();
 
-        if(onslyde.mode === 'default'){
+        if(sessionMode === 'default'){
           focusPage = activeSlide;
           onslyde.ui.slideTo(activeSlide);
         }
@@ -1277,7 +1282,7 @@
 
           pastSlides.push(activeSlide);
           activeSlide = futureSlides.shift();
-          if(onslyde.mode === 'default'){
+          if(sessionMode === 'default'){
             onslyde.ui.slideTo(activeSlide);
           }
           groupSlideIndex++;
@@ -1285,12 +1290,12 @@
           this.sendMarkup();
         } else {
           //move to next group
-          if(onslyde.mode === 'default'){
+          if(sessionMode === 'default' || sessionMode === 'bespoke'){
             this.nextGroup();
           }
         }
 
-        if(onslyde.mode === 'default'){
+        if(sessionMode === 'default'){
           //quick hack for hiding audience address bar
           var mainScreenAddressBar = document.querySelector(".address");
           if (mainScreenAddressBar) {
@@ -1304,14 +1309,14 @@
         if (pastSlides.length > 0 && groupSlideIndex >= 0) {
           futureSlides.unshift(activeSlide);
           activeSlide = pastSlides.pop();
-          if(onslyde.mode === 'default'){
+          if(sessionMode === 'default'){
             onslyde.ui.slideTo(activeSlide);
           }
           groupSlideIndex--;
           this.updateRemotes();
           this.sendMarkup();
         } else {
-          if(onslyde.mode === 'default'){
+          if(sessionMode === 'default' || sessionMode === 'bespoke'){
             this.prevGroup();
           }
         }
@@ -1346,7 +1351,7 @@
 
           groupIndex =  pastGroups.length;
 
-          activeGroup.style.display = 'none';
+          activeGroup.style.display = (sessionMode === 'default' ? 'none' : '');
           activeGroup = futureGroups.shift();
           activeGroup.style.display = '';
 
@@ -1358,7 +1363,7 @@
           activeOptions = [];
           this.checkOptions();
           this.updateRemotes();
-          if(onslyde.mode === 'default'){
+          if(sessionMode === 'default'){
             onslyde.ui.slideTo(activeSlide);
           }
 
@@ -1389,7 +1394,8 @@
         //console.log('prevGroup ' + pastGroups.length);
         if (pastGroups.length > 0) {
           futureGroups.unshift(activeGroup);
-          activeGroup.style.display = 'none';
+
+          activeGroup.style.display = (sessionMode === 'default' ? 'none' : '');
           activeGroup = pastGroups.pop();
           activeGroup.style.display = '';
 
@@ -1414,7 +1420,7 @@
             //pastSlides.reverse();
           }
           futureSlides = [];
-          if(onslyde.mode === 'default'){
+          if(sessionMode === 'default' || sessionMode === 'bespoke'){
             groupSlideIndex = pastSlides.length;
             activeSlide = pastSlides.pop();
             var groupOptions = this.groupOptions(activeGroup);
@@ -1428,7 +1434,7 @@
           //console.log('---groupOptions ' + groupOptions);
           //console.log('activeSlide ' + activeSlide);
 
-          if(onslyde.mode === 'default'){
+          if(sessionMode === 'default'){
             onslyde.ui.slideTo(activeSlide);
           }
           //reset votes
@@ -1491,7 +1497,7 @@
           if (slides[i].getAttribute("data-option") == option || (slides[i].getAttribute("data-option") == 'master' && activeOption != null)) {
             ////console.log(slides[i]);
             futureSlides.push(slides[i]);
-          }else if(onslyde.mode !== 'default'){
+          }else if(sessionMode !== 'default'){
             //for reveal
             if (slides[i].getAttribute("data-option") != 'master'){
 //                       console.log(slides[i]);
@@ -1588,7 +1594,7 @@
           case 13: // Enter
           case 32: // space
           case 34: // PgDn
-            if(onslyde.mode === 'default'){
+            if(sessionMode === 'default' || sessionMode === 'bespoke'){
               onslyde.slides.nextSlide();
             }else{
               onslyde.slides.nextGroup();
@@ -1599,7 +1605,7 @@
           case 37: // left arrow
 //          case 8: // Backspace
           case 33: // PgUp
-            if(onslyde.mode === 'default'){
+            if(sessionMode === 'default' || sessionMode === 'bespoke'){
               onslyde.slides.prevSlide();
             }else{
               onslyde.slides.prevGroup();
