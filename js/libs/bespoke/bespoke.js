@@ -2,9 +2,6 @@
 	var from = function(selectorOrElement, selectedPlugins) {
 			var parent = selectorOrElement.blur ? selectorOrElement : document.querySelector(selectorOrElement);
 
-
-
-
             var	slides = [].slice.call(parent.querySelectorAll('section'), 0),
 				activeSlide = slides[0],
 				listeners = {};

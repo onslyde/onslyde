@@ -15,7 +15,8 @@
 
     <link rel="stylesheet" type="text/css" href="js/libs/bespoke/style.css" />
     <link rel="stylesheet" type="text/css" href="js/libs/bespoke/themes.css" />
-
+    <!--onslyde specific styles-->
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
     <link href="css/deck/deck.css" rel="stylesheet" />
 
 
@@ -34,7 +35,7 @@
     Agree
 </div>
 <div id="stats">
-    <span><span id="wscount"></span> WebSocket </span><span><span id="pollcount"></span> Polling</span>
+    <span><span id="wscount">0</span> Connected Attendees</span>
 </div>
 
 <div class="address">
@@ -67,19 +68,19 @@
         <span class="slide-group">
 
             <section class="slide" data-option="master">
-                <h3 style="color:orange" class="send">Does this excite you?</h3>
+                <h2 class="send">Does this excite you?</h2>
             </section>
 
             <section class="slide" data-option="Yes">
-                <div class="send">
+                <p class="send">
                     Awesome, then keep going
-                </div>
+                </p>
             </section>
 
             <section class="slide" data-option="No Way">
-                <div class="send">
+                <p class="send">
                     Alrighty, go use Keynote or Powerpoint and pray the audience stays awake ;)
-                </div>
+                </p>
             </section>
 
         </span>
@@ -88,7 +89,7 @@
 </article>
     </div>
 
-<footer>
+<footer style="opacity:0">
     <div class="credits">
 
     </div>
