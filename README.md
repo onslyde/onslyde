@@ -76,10 +76,7 @@ http://www.youtube.com/watch?v=n-7Xu75T2bU
 
 #Start presenting
 <ul>
-<li><a href="http://onslyde.com" target="_blank">Signup here</a> and get a session ID. Make a note of your assigned "session ID" after you hit the submit button it will show up above the name input. (You will also get an email with the info)</li>
-<li>Save <a href="http://onslyde.com/example-deck.html" target="_blank">this slide deck</a> to disk (Save As->"Webpage, HTML Only").</li>
-<li>Open the HTML file you saved, hit ctrl-f and search for "sessionID". Replace the current sessionID value (103) with the one from your signup.</li>
-<li>You now have a private session for your presentation.</li>
+<li><a href="http://onslyde.com" target="_blank">Signup here</a>, login, and go to "Getting Started".</li>
 </ul>
 
 #Supported Browsers
@@ -109,7 +106,3 @@ Feel free to rebrand the remote for the audience with your twitter handle etc...
     THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER 
     IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-# Contributors
-
-* Darren Nelsen 
