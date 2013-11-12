@@ -1370,12 +1370,13 @@
       },
 
       sendMarkup : function() {
+        var sendElements = activeSlide.querySelectorAll('.send');
         // see if there's anything on the new slide to send to remotes EXPERIMENTAL
         if(activeSlide !== 'undefined'){
           var allSend = "";
-          for(var i = 0; i < activeSlide.querySelectorAll('.send').length;i++) {
+          for(var i = 0; i < sendElements.length;i++) {
             //send to remotes
-            var outerHtml = activeSlide.querySelectorAll('.send')[i].outerHTML;
+            var outerHtml = sendElements[i].outerHTML;
             allSend += outerHtml;
           }
           if(allSend.length > 0) {
