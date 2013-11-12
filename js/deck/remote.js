@@ -12,16 +12,16 @@ disablePoll();
 option1.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option1', 'vote']);
   sendVote(event,option1.value);
-  option1.value = '';
-  option2.value = '';
+  option1.value = 'Vote Received';
+  option2.value = 'Vote Received';
   return false;
 };
 
 option2.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option2', 'vote']);
   sendVote(event,option2.value);
-  option1.value = '';
-  option2.value = '';
+  option1.value = 'Vote Received';
+  option2.value = 'Vote Received';
   return false;
 };
 
@@ -55,8 +55,8 @@ agree.onclick = function(event) {
 function disablePoll(){
   option1.disabled = true;
   option2.disabled = true;
-  option1.style.opacity = .4;
-  option2.style.opacity = .4;
+  option1.style.opacity = .2;
+  option2.style.opacity = .2;
   //voteLabel.style.opacity = .4;
   voteLabel.innerHTML = 'Waiting...';
 }
@@ -75,8 +75,8 @@ function enablePoll(e){
 function enableSentiment(){
   disagree.disabled = false;
   agree.disabled = false;
-  disagree.value = 'Agree';
-  agree.value = 'Disagree';
+  disagree.value = 'Disagree';
+  agree.value = 'Agree';
   disagree.style.opacity = 1;
   agree.style.opacity = 1;
 }
