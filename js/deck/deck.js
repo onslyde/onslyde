@@ -9,7 +9,7 @@ window.addEventListener('wtf', function(e) {
   wtf.innerHTML = "Thumbs Down!";
   if(wtf){
     wtf.className = "show-wtf transition";
-    setTimeout(function(){wtf.className = "hide-wtf transition"},800)
+    setTimeout(function(){wtf.className = "hide-wtf transition";},800);
   }
 }, false);
 
@@ -19,7 +19,7 @@ window.addEventListener('nice', function(e) {
   nice.innerHTML = "Nice!";
   if(nice){
     nice.className = "show-nice nice transition";
-    setTimeout(function(){nice.className = "hide-nice transition"},800)
+    setTimeout(function(){nice.className = "hide-nice transition";},800);
   }
 }, false);
 
@@ -32,17 +32,18 @@ window.addEventListener('slideEvent', function(e) {
 }, false);
 
 var barChart = (function($) {
+  "use strict";
   var voteOptions = [
     {
-      name: 'This is cool',
+      name: '',
       numVotes: 9
     },
     {
-      name: 'Dude seriously',
+      name: '',
       numVotes: 6
     },
     {
-      name: 'WTF!',
+      name: '',
       numVotes: 2
     }
   ];
@@ -63,7 +64,7 @@ var barChart = (function($) {
 
   function addVote(name) {
     for (var i = 0; i < voteOptions.length; i++) {
-      if (voteOptions[i].name == name) {
+      if (voteOptions[i].name === name) {
         voteOptions[i].numVotes += 1;
       }
     }
@@ -71,7 +72,7 @@ var barChart = (function($) {
 
   function getVotes(index) {
     var data = [];
-    var numVotes = voteOptions[index].numVotes
+    var numVotes = voteOptions[index].numVotes;
     var newArr = [numVotes, index];
     data.push(newArr);
     return data;
@@ -79,7 +80,7 @@ var barChart = (function($) {
 
   function Series(data) {
     this.data = data;
-    this.bars = { show: true }
+    this.bars = {show: true};
   }
 
   function getChartData() {
@@ -112,8 +113,8 @@ var barChart = (function($) {
         transform: function (v) { return -v; },
         inverseTransform: function (v) { return -v; }
       }
-    }
-  };
+    };
+  }
 
   function getTicks() {
     var ticks = [];
@@ -135,5 +136,5 @@ var barChart = (function($) {
     draw: drawChart,
     redraw: drawChart,
     vote: addVote
-  }
+  };
 })(jQuery);

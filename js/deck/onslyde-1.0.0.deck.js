@@ -19,7 +19,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-//optimize for minification and performance
+/*jshint -W054 */
+
 (function (window, document, undefined) {
   "use strict";
   window.onslyde = (function () {
@@ -122,7 +123,6 @@
         }
 
         if (deck && deck.sessionID) {
-          console.log(deck.sessionID)
           sessionID = deck.sessionID;
           sessionMode = deck.mode;
           onslyde.slides.init();
@@ -176,9 +176,12 @@
         }
       },
 
+      getParameterByName: function(name){
+        var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+      },
+
       ajax: function (url, callback, async) {
-        var req = init();
-        req.onreadystatechange = processRequest;
 
         function init() {
           if (window.XMLHttpRequest) {
@@ -187,6 +190,8 @@
             return new window.ActiveXObject("Microsoft.XMLHTTP");
           }
         }
+
+        var req = init();
 
         function processRequest() {
           if (req.readyState === 4) {
@@ -200,6 +205,8 @@
             }
           }
         }
+
+        req.onreadystatechange = processRequest;
 
         this.doGet = function () {
 //          req.open("GET", url + "?timestamp=" + new Date().getTime(), async);
@@ -265,11 +272,6 @@
       cacheExternalImage: function () {
         var images = document.getElementsByTagName('img');
 
-        for (var i = 0; i < images.length; i += 1) {
-          if (images[i].hasAttribute("data-image")) {
-            cacheImage(images[i]);
-          }
-        }
         function cacheImage(img) {
           var imageURL = img.getAttribute("data-url");
           //check for image already in storage
@@ -301,6 +303,12 @@
             img.src = ctx.canvas.toDataURL("image/png");
             //store into localstorage
             localStorage[imageURL] = img.src;
+          }
+        }
+
+        for (var i = 0; i < images.length; i += 1) {
+          if (images[i].hasAttribute("data-image")) {
+            cacheImage(images[i]);
           }
         }
       },
@@ -631,16 +639,6 @@
 
       processOnline: function (event) {
 
-        onslyde.network.setup();
-        checkAppCache();
-
-        //reset our once disabled offline links
-        if (event) {
-          for (var i = 0; i < disabledLinks.length; i += 1) {
-            disabledLinks[i].onclick = null;
-          }
-        }
-
         function checkAppCache() {
           //check for a new appCache
           window.applicationCache.addEventListener('updateready', function (e) {
@@ -654,6 +652,16 @@
               }
             }
           }, false);
+        }
+
+        onslyde.network.setup();
+        checkAppCache();
+
+        //reset our once disabled offline links
+        if (event) {
+          for (var i = 0; i < disabledLinks.length; i += 1) {
+            disabledLinks[i].onclick = null;
+          }
         }
       },
 
@@ -785,7 +793,7 @@
 
         var keepgoing = true, pagehistory = [];
 
-        var pagestate = function (pages, className) {
+        var Pagestate = function (pages, className) {
           var that = {};
           that.count = 0;
           that.pages = pages;
@@ -796,8 +804,8 @@
 
         var allpages = listToArray(document.querySelectorAll('.page'));
 
-        var leftPageState = new pagestate(allpages, 'page stage-left');
-        var rightPageState = new pagestate(allpages.slice(), 'page stage-right');
+        var leftPageState = new Pagestate(allpages, 'page stage-left');
+        var rightPageState = new Pagestate(allpages.slice(), 'page stage-right');
 
         function detecttilt(leftToRight) {
           if (keepgoing) {
@@ -846,10 +854,6 @@
 
       motion: function () {
 
-        if (onslyde.html5e.supports_motion) {
-          window.addEventListener('devicemotion', deviceMotionHandler, false);
-        }
-
         function deviceMotionHandler(eventData) {
           // Grab the acceleration including gravity from the results
           var acceleration = eventData.accelerationIncludingGravity;
@@ -876,6 +880,11 @@
           var rotation = "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB) + "deg)";
           focusPage.style.webkitTransform = rotation;
         }
+
+        if (onslyde.html5e.supports_motion) {
+          window.addEventListener('devicemotion', deviceMotionHandler, false);
+        }
+
       }
     };
     var sharedobj = {};
@@ -1019,7 +1028,7 @@
 
         var createRandom = function () {
           return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+        };
         var aip;
         var min = 255;
         var max = 999;
@@ -1178,7 +1187,7 @@
 //          nice.innerHTML = "Nice!";
           if(props[type]){
             props[type].className = 'show-' + type + ' ' + type + ' transition';
-            setTimeout(function(){props[type].className = 'hide-' + type + ' transition'},800)
+            setTimeout(function(){props[type].className = 'hide-' + type + ' transition';},800);
           }
         }
 
@@ -1206,7 +1215,7 @@
             onslyde.ws._send(initString, csessionID);
           }
         } catch (e) {
-          console.log('error',e)
+          console.log('error',e);
         }
       },
 
@@ -1462,9 +1471,10 @@
         for (var i = 0; i < slides.length; i++) {
           //or .dataset['option']
           option = slides[i].getAttribute("data-option");
-          if (option && option != 'master') {
-            if (option in u)
+          if (option && option !== 'master') {
+            if (option in u){
               continue;
+            }
             activeOptions.push(option);
             u[option] = 1;
           }
@@ -1478,7 +1488,7 @@
         futureSlides = [];
         //try to keep a history of options chosen
         if (pastOptions.length > 0) {
-          if (pastOptions.indexOf(option) != 1) {
+          if (pastOptions.indexOf(option) !== 1) {
             pastOptions.push(option);
           }
         } else {
@@ -1491,12 +1501,12 @@
         for (var i = 0; i < slides.length; i++) {
           //include only chose option slides and master  ('master' + activeOption) is the only case we want to include master
           //todo - fix double arrow tap when going backwards on master
-          if (slides[i].getAttribute("data-option") == option || (slides[i].getAttribute("data-option") == 'master' && activeOption != null)) {
+          if (slides[i].getAttribute("data-option") === option || (slides[i].getAttribute("data-option") === 'master' && activeOption !== null)) {
             ////console.log(slides[i]);
             futureSlides.push(slides[i]);
           }else if(sessionMode !== 'default'){
             //for reveal
-            if (slides[i].getAttribute("data-option") != 'master'){
+            if (slides[i].getAttribute("data-option") !== 'master'){
 //                       console.log(slides[i]);
 //                       slides[i].style.display = "none";
               slides[i].parentNode.removeChild(slides[i]);
@@ -1544,8 +1554,9 @@
         ////console.log(vote + ' ' + currentVotes[vote]);
 
         for (var i = 0; i < activeOptions.length; i++) {
-          if (currentVotes.hasOwnProperty(activeOptions[i]))
+          if (currentVotes.hasOwnProperty(activeOptions[i])){
             totalVotes += currentVotes[activeOptions[i]];
+          }
         }
 
         barChart.vote(vote);
@@ -1560,10 +1571,10 @@
         //console.log(currentVotes);
         for (var opt in currentVotes) {
           if (currentVotes.hasOwnProperty(opt)) {
-            values.push(currentVotes[opt])
+            values.push(currentVotes[opt]);
           }
         }
-        values.sort(function (a, b) {return b-a});
+        values.sort(function (a, b) {return b-a;});
         //console.log(values);
 
         //todo - check for tie condition
@@ -1573,7 +1584,7 @@
           if (currentVotes.hasOwnProperty(optb)) {
             //based on the sorted values, we'll choose the first one
             //javascript hashes can't be sorted, so this is a rebuild
-            if (values[0] == currentVotes[optb]) {
+            if (values[0] === currentVotes[optb]) {
               winner = optb;
             }
           }

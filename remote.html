@@ -63,8 +63,7 @@
   </div>
 
 </div>
-<script type="text/javascript" src="js/deck/remote.js?v=200" ></script>
-<script type="text/javascript" src="js/deck/onslyde-1.0.0.deck.js?v=200" ></script>
+<script type="text/javascript" src="js/deck/dist/onslyde-core-1.0.0.min.js" ></script>
 <script type="text/javascript">
 
 
@@ -72,11 +71,10 @@
     defaultPageID:'about-page',
     touchEnabled: false,
     singlePageModel: true,
-    deckRemote: {sessionID: (getParameterByName("session") || 167)}
+    deckRemote: {sessionID: (onslyde.core.getParameterByName("session") || 175)}
   });
 
 </script>
-<script type="text/javascript" src="js/deck/gracefulWebSocket.js?v=200" ></script>
-
+<script type="text/javascript" src="js/deck/dist/onslyde-remote-1.0.0.min.js"></script>
 </body>
 </html>

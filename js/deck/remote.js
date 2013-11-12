@@ -4,10 +4,25 @@ var disagree = document.querySelector('#disagree');
 var agree = document.querySelector('#agree');
 var voteLabel = document.querySelector('#vote-label');
 var voted;
-//todo make this unique user for session management/voter registration
-//var ws = slidfast.ws.join('client:anonymous2');
 
-disablePoll();
+
+function disablePoll(){
+  option1.disabled = true;
+  option2.disabled = true;
+  option1.style.opacity = 0.2;
+  option2.style.opacity = 0.2;
+  voteLabel.innerHTML = 'Waiting...';
+}
+
+
+function sendVote(event,option){
+  voted = true;
+  if(option){
+    ws.send('vote:' + option);
+  }
+  disablePoll();
+  return false;
+}
 
 option1.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option1', 'vote']);
@@ -27,21 +42,14 @@ option2.onclick = function(event) {
   return false;
 };
 
-function sendVote(event,option){
-  voted = true;
-  if(option){
-    ws.send('vote:' + option);
-  }
-  disablePoll();
-  return false;
-}
+
 
 disagree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-disagree', 'vote']);
   ws.send('props:disagree');
   disagree.disabled = true;
-  disagree.style.opacity = .4;
-  disagree.value = "Waiting for next slide"
+  disagree.style.opacity = 0.4;
+  disagree.value = "Waiting for next slide";
   return false;
 };
 
@@ -49,20 +57,12 @@ agree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-agree', 'vote']);
   ws.send('props:agree');
   agree.disabled = true;
-  agree.style.opacity = .4;
-  agree.value = "Waiting for next slide"
+  agree.style.opacity = 0.4;
+  agree.value = "Waiting for next slide";
   return false;
 };
 
-function disablePoll(){
-  option1.disabled = true;
-  option2.disabled = true;
 
-  option1.style.opacity = .2;
-  option2.style.opacity = .2;
-  //voteLabel.style.opacity = .4;
-  voteLabel.innerHTML = 'Waiting...';
-}
 
 function enablePoll(e){
   option1.disabled = false;
@@ -89,7 +89,7 @@ function enableSentiment(){
 window.addEventListener('updateOptions', function(e) {
   //quick check to make sure we don't re-enable on polling clients and disabling on null options
   if(e.option1 !== undefined && e.option1 !== 'null' && e.option2 !== 'null'){
-    if((option1.value != e.option1 && option2.value != e.option2)){
+    if((option1.value !== e.option1 && option2.value !== e.option2)){
       enablePoll(e);
       enableSentiment();
     }
@@ -127,7 +127,5 @@ window.addEventListener('roulette', function(e) {
   }
 }, false);
 
-function getParameterByName(name) {
-  var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
+
+disablePoll();
