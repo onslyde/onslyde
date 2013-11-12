@@ -12,16 +12,18 @@ disablePoll();
 option1.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option1', 'vote']);
   sendVote(event,option1.value);
-  option1.value = 'Vote Received';
-  option2.value = 'Vote Received';
+  option1.value = 'Thanks for the input!';
+  option2.value = 'Thanks for the input!';
+  option2.style.display = 'none';
   return false;
 };
 
 option2.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option2', 'vote']);
   sendVote(event,option2.value);
-  option1.value = 'Vote Received';
-  option2.value = 'Vote Received';
+  option1.value = 'Thanks for the input!';
+  option2.value = 'Thanks for the input!';
+  option1.style.display = 'none';
   return false;
 };
 
@@ -39,7 +41,7 @@ disagree.onclick = function(event) {
   ws.send('props:disagree');
   disagree.disabled = true;
   disagree.style.opacity = .4;
-  disagree.value = "Vote again on next slide..."
+  disagree.value = "Waiting for next slide"
   return false;
 };
 
@@ -48,13 +50,14 @@ agree.onclick = function(event) {
   ws.send('props:agree');
   agree.disabled = true;
   agree.style.opacity = .4;
-  agree.value = "Vote again on next slide..."
+  agree.value = "Waiting for next slide"
   return false;
 };
 
 function disablePoll(){
   option1.disabled = true;
   option2.disabled = true;
+
   option1.style.opacity = .2;
   option2.style.opacity = .2;
   //voteLabel.style.opacity = .4;
@@ -64,6 +67,8 @@ function disablePoll(){
 function enablePoll(e){
   option1.disabled = false;
   option2.disabled = false;
+  option1.style.display = '';
+  option2.style.display = '';
   option1.value = e.option1;
   option2.value = e.option2;
   option1.style.opacity = 1;
