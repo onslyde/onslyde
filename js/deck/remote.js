@@ -1,9 +1,10 @@
-var option1 = document.querySelector('#option1');
-var option2 = document.querySelector('#option2');
-var disagree = document.querySelector('#disagree');
-var agree = document.querySelector('#agree');
-var voteLabel = document.querySelector('#vote-label');
-var voted;
+var option1 = document.querySelector('#option1'),
+  option2 = document.querySelector('#option2'),
+  disagree = document.querySelector('#disagree'),
+  agree = document.querySelector('#agree'),
+  voteLabel = document.querySelector('#vote-label'),
+  voted,
+  wsf = null;
 
 
 function disablePoll(){
@@ -18,7 +19,7 @@ function disablePoll(){
 function sendVote(event,option){
   voted = true;
   if(option){
-    ws.send('vote:' + option);
+    wsf.sendText('vote:' + option);
   }
   disablePoll();
   return false;
@@ -46,7 +47,7 @@ option2.onclick = function(event) {
 
 disagree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-disagree', 'vote']);
-  ws.send('props:disagree');
+  wsf.send('props:disagree');
   disagree.disabled = true;
   disagree.style.opacity = 0.4;
   disagree.value = "Waiting for next slide";
@@ -55,7 +56,7 @@ disagree.onclick = function(event) {
 
 agree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-agree', 'vote']);
-  ws.send('props:agree');
+  wsf.send('props:agree');
   agree.disabled = true;
   agree.style.opacity = 0.4;
   agree.value = "Waiting for next slide";

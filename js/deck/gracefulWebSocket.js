@@ -3,8 +3,7 @@
 
   window.addEventListener('load', function (e) {
     // in fallback mode: connect returns a dummy object implementing the WebSocket interface
-    window.ws = onslyde.wsFallback.createSocket().gracefulWebSocket('ws://' + onslyde.ws.ip(onslyde.ws.sessionID()) + ':8081'); // the ws-protocol will automatically be changed to http
-    window.ws = onslyde.ws.connect(ws);
+    wsf = onslyde.wsFallback.createSocket().gracefulWebSocket('ws://' + onslyde.ws.ip(onslyde.ws.sessionID()) + ':8081'); // the ws-protocol will automatically be changed to http
   }, false);
 
   onslyde.wsFallback = onslyde.prototype = {
@@ -134,11 +133,16 @@
               },
               onopen:function () {
               },
-              onmessage:function () {
+              onmessage:function (message) {
+                //use the same message handler as core ws
+                onslyde.ws._onmessage(message);
               },
               onerror:function () {
               },
               onclose:function () {
+              },
+              sendText:function(text){
+                fws.send(text);
               },
               previousRequest:null,
               currentRequest:null
@@ -200,10 +204,19 @@
           }
 
           // create a new websocket or fallback
-          var ws = ("WebSocket" in window && WebSocket.CLOSED > 2) ? new WebSocket(url + '?session=' + onslyde.ws.sessionID() + '&attendeeIP=' + onslyde.ws.getip()) : new FallbackSocket();
+          var ws;
+
+          if("WebSocket" in window && WebSocket.CLOSED > 2){
+            ws = onslyde.ws.connect(null,'',onslyde.ws.sessionID());
+          }else{
+            ws = new FallbackSocket();
+          }
+
           var senddata = {"sessionID":onslyde.ws.sessionID(), "attendeeIP":onslyde.ws.getip()};
-          var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/go/attendees/remove', function (text, url) {
-          }, false);
+
+          //create the ajax object for use when client disconnects
+          var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/go/attendees/remove', function (text, url) {}, false);
+
           window.addEventListener("beforeunload", function (e) {
             ws.close();
             ws = null;
@@ -213,7 +226,6 @@
               ai.doPost(encodeData(senddata));
             }
             (e || window.event).returnValue = confirmationMessage;  //Webkit, Safari, Chrome etc.
-
             return confirmationMessage;
           });
 

@@ -992,7 +992,7 @@
     var isopen = false;
     onslyde.ws = onslyde.prototype = {
 
-      ip:function (thisSessionID) {
+      ip: function (thisSessionID) {
         //todo come up with better approach :)
         //there are 3 environments in which this call must be made:
         //(1) running just HTML locally
@@ -1035,9 +1035,9 @@
         if (!localStorage['onslyde.attendeeIP']) {
           aip = createRandom() + '.' + createRandom() + '.' + createRandom() + '.' + createRandom();
           //if in private browsing mode this will fail
-          try {
+          try{
             localStorage['onslyde.attendeeIP'] = aip;
-          } catch (e) {
+          }catch(e){
 
           }
         } else {
@@ -1046,11 +1046,9 @@
         return aip;
       },
 
-      sessionID:function () {
-        return sessionID;
-      },
+      sessionID: function(){return sessionID;},
 
-      connect:function (websocket, initString, thisSessionID) {
+      connect: function (websocket, initString, thisSessionID) {
 
         username = 'anonymous';
         //here we check to see if we're passing in our mock websocket object from polling clients (using gracefulWebSocket.js)
@@ -1072,26 +1070,27 @@
 
         ws.onopen = function () {
           isopen = true;
-          onslyde.ws._send('user:' + username);
           if (typeof initString !== 'undefined') {
             onslyde.ws._send(initString);
           }
         };
         ws.onmessage = this._onmessage;
         ws.onclose = this._onclose;
-//              ws.onerror = this._onerror;
-
+        ws.sendText = function(text){
+          onslyde.ws._send(text);
+        };
         return ws;
       },
 
       _onmessage: function (m) {
+        /*jshint -W054 */
 //        console.log('---onmessage:', m.data);
         if (m.data) {
           if(typeof m.data === 'object'){
-            if (m.data.onslydeEvent.sessionID !== 0) {
+            if(m.data.onslydeEvent.sessionID !== 0){
               m.data.onslydeEvent.fire();
             }
-          } else if (m.data.indexOf('sessionID":"' + sessionID) > 0) {
+          }else if (m.data.indexOf('sessionID":"' + sessionID) > 0) {
             try {
               //avoid use of eval...
               var event = (m.data);
@@ -1107,7 +1106,6 @@
       },
 
       _onclose: function (m) {
-        onslyde.ws._send('::disconnect::');
         ws = null;
       },
 
@@ -1116,9 +1114,12 @@
       },
 
       _send: function (message) {
-        //console.log('sent ');
-        ws.send(message);
-
+        if(!ws || (ws && ws.readyState === 3)){
+          console.log('connection closed... attempting reconnect');
+          this.connect(null,message,sessionID);
+        }else{
+          ws.send(message);
+        }
       }
     };
 
@@ -1204,15 +1205,13 @@
       },
 
       connect : function(initString) {
-        //ws connect
-//        console.log('connect',initString);
         try {
           if (!ws) {
             onslyde.ws.connect(null, initString, csessionID);
             //todo - quit using settimeouts and start using promises for connection
             setTimeout(function(){onslyde.slides.sendMarkup();},1000);
           } else {
-            onslyde.ws._send(initString, csessionID);
+            onslyde.ws._send(initString, sessionID);
           }
         } catch (e) {
           console.log('error',e);
