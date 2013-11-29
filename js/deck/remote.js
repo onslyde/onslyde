@@ -19,7 +19,7 @@ function disablePoll(){
 function sendVote(event,option){
   voted = true;
   if(option){
-    wsf.sendText('vote:' + option);
+    wsf.sendText('vote:' + option + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
   }
   disablePoll();
   return false;
@@ -47,7 +47,7 @@ option2.onclick = function(event) {
 
 disagree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-disagree', 'vote']);
-  wsf.send('props:disagree');
+  wsf.send('props:disagree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
   disagree.disabled = true;
   disagree.style.opacity = 0.4;
   disagree.value = "Waiting for next slide";
@@ -56,7 +56,7 @@ disagree.onclick = function(event) {
 
 agree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-agree', 'vote']);
-  wsf.send('props:agree');
+  wsf.send('props:agree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
   agree.disabled = true;
   agree.style.opacity = 0.4;
   agree.value = "Waiting for next slide";

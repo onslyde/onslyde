@@ -116,7 +116,7 @@
                   }
 
                   posturl = opts.fallbackSendURL + '/go/attendees/vote';
-                  senddata = {"vote":vote, "sessionID":onslyde.ws.sessionID(), "attendeeIP":attendeeIP, "username":window.userObject.name, "email":window.userObject.email};
+                  senddata = {"vote":vote, "sessionID":onslyde.ws.sessionID(), "attendeeIP":attendeeIP, "username":window.userObject.name, "email":window.userObject.email, "voteTime": new Date().getTime()};
                 }
 
                 var ai = new onslyde.core.ajax(posturl, function (text, url) {
