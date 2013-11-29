@@ -35,6 +35,12 @@ module.exports = function(grunt) {
         }
       }
     },
+    watch: {
+      files: [
+        'js/deck/*.js',
+        '!js/deck/dist/*.js'],
+      tasks: ['default']
+    },
     jshint: {
       options: {
         curly: true,
@@ -75,7 +81,8 @@ module.exports = function(grunt) {
           Worker: true,
           $: true,
           barChart: true,
-          Image: true
+          Image: true,
+          wsf: true
         }
       },
       gruntfile: {
@@ -98,6 +105,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
 
   // Default task.
+  grunt.registerTask('dev', ['watch']);
   grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 
 };
