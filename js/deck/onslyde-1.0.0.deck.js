@@ -1223,7 +1223,6 @@
         wscount = wsc;
         pollcount = pc;
         document.getElementById('wscount').innerHTML = wscount;
-        document.getElementById('pollcount').innerHTML = pollcount;
       },
 
       wsCount : function() {

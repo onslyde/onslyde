@@ -27,18 +27,14 @@ function sendVote(event,option){
 option1.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option1', 'vote']);
   sendVote(event,option1.value);
-  option1.value = 'Thanks for the input!';
-  option2.value = 'Thanks for the input!';
-  option2.style.display = 'none';
+  disablePoll();
   return false;
 };
 
 option2.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-option2', 'vote']);
   sendVote(event,option2.value);
-  option1.value = 'Thanks for the input!';
-  option2.value = 'Thanks for the input!';
-  option1.style.display = 'none';
+  disablePoll();
   return false;
 };
 
