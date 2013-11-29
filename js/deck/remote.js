@@ -6,6 +6,10 @@ var option1 = document.querySelector('#option1'),
   voted,
   wsf = null;
 
+if (!window['userObject'] || typeof userObject === 'undefined') {
+  window.userObject = {name:'',email:'',org:'',pic:''};
+}
+
 
 function disablePoll(){
   option1.disabled = true;
