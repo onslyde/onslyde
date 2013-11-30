@@ -1525,8 +1525,36 @@
         }else{
           activeOptionsString = 'activeOptions:null,null,' + groupIndex + ':' + groupSlideIndex;
         }
-        console.log(activeOptionsString);
-        this.connect(activeOptionsString);
+
+        //create binary screenshot
+        //must wait for transition to end before capturing screen
+        setTimeout(function(){
+            html2canvas(document.body, {
+                onrendered: function(canvas) {
+                    var extra_canvas = document.createElement("canvas"),
+                        newHeight = (window.innerHeight / 2),
+                        newWidth = (window.innerWidth / 2);
+
+                    extra_canvas.setAttribute('width',newWidth);
+                    extra_canvas.setAttribute('height',newHeight);
+                    var ctx = extra_canvas.getContext('2d');
+                    ctx.drawImage(canvas,0,0,canvas.width, canvas.height,0,0,newWidth,newHeight);
+
+                    //            document.body.appendChild(extra_canvas);
+                    //            var aFileParts = ['<a id="a"><b id="b">hey!</b></a>'];
+                    //            var oMyBlob = new Blob(canvas, {type : 'text/html'});
+                    //            var arr = Uint8Array(new ArrayBuffer(1000));
+                    extra_canvas.toBlob(function(blob){
+
+                        //server will detect binary data
+                        onslyde.slides.connect(blob);
+                        //send active options
+                        onslyde.slides.connect(activeOptionsString);
+                    });
+
+                }
+            });
+        },700);
         //clear options after sending
 //        activeOptions = [];
 
