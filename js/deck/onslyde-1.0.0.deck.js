@@ -1139,7 +1139,8 @@
       groupSlideIndex = 0,
       groupIndex = 0,
       currentVotes = {},
-      totalVotes = 0;
+      totalVotes = 0,
+      transitionEvents = [];
 
     onslyde.slides = onslyde.prototype = {
 
@@ -1181,6 +1182,8 @@
         window.addEventListener('agree', function (e) {
           handleProps('agree');
         }, false);
+
+
 
         var props = [];
         function handleProps(type) {
@@ -1526,35 +1529,69 @@
           activeOptionsString = 'activeOptions:null,null,' + groupIndex + ':' + groupSlideIndex;
         }
 
-        //create binary screenshot
+
         //must wait for transition to end before capturing screen
-        setTimeout(function(){
-            html2canvas(document.body, {
-                onrendered: function(canvas) {
-                    var extra_canvas = document.createElement("canvas"),
-                        newHeight = (window.innerHeight / 2),
-                        newWidth = (window.innerWidth / 2);
-
-                    extra_canvas.setAttribute('width',newWidth);
-                    extra_canvas.setAttribute('height',newHeight);
-                    var ctx = extra_canvas.getContext('2d');
-                    ctx.drawImage(canvas,0,0,canvas.width, canvas.height,0,0,newWidth,newHeight);
-
-                    //            document.body.appendChild(extra_canvas);
-                    //            var aFileParts = ['<a id="a"><b id="b">hey!</b></a>'];
-                    //            var oMyBlob = new Blob(canvas, {type : 'text/html'});
-                    //            var arr = Uint8Array(new ArrayBuffer(1000));
-                    extra_canvas.toBlob(function(blob){
-
-                        //server will detect binary data
-                        onslyde.slides.connect(blob);
-                        //send active options
-                        onslyde.slides.connect(activeOptionsString);
-                    });
-
+        var thresholdms = 200,
+          transInterval,
+          counter = 0;
+        var eventEndListener = function(event){
+          //here we're setting a threshold which eill detect a series of transition end events.
+          //if nothing happens within 200ms, then we kill/tear down all the listeners and intervals
+          //and then execute the captureScreen method.
+          if(!transInterval){
+            transInterval = setInterval(function(){
+              if(thresholdms <= counter){
+                //create binary screenshot and send remote updates
+                captureScreen();
+                window.clearInterval(transInterval);
+                transInterval = null;
+                window.removeEventListener( 'webkitTransitionEnd', eventEndListener, false );
+                var index = transitionEvents.indexOf('webkitTransitionEnd');
+                if (index > -1) {
+                  transitionEvents.splice(index, 1);
                 }
-            });
-        },700);
+              }
+              counter += 10;
+            },10);
+          }
+
+
+        };
+
+        if(transitionEvents.indexOf('webkitTransitionEnd') === -1){
+          window.addEventListener( 'webkitTransitionEnd', eventEndListener, false );
+          transitionEvents.push('webkitTransitionEnd');
+        }
+
+        function captureScreen(){
+          html2canvas(document.body, {
+            onrendered: function(canvas) {
+              var extra_canvas = document.createElement("canvas"),
+                newHeight = (window.innerHeight / 2),
+                newWidth = (window.innerWidth / 2);
+
+              extra_canvas.setAttribute('width',newWidth);
+              extra_canvas.setAttribute('height',newHeight);
+              var ctx = extra_canvas.getContext('2d');
+              ctx.drawImage(canvas,0,0,canvas.width, canvas.height,0,0,newWidth,newHeight);
+
+              //            document.body.appendChild(extra_canvas);
+              //            var aFileParts = ['<a id="a"><b id="b">hey!</b></a>'];
+              //            var oMyBlob = new Blob(canvas, {type : 'text/html'});
+              //            var arr = Uint8Array(new ArrayBuffer(1000));
+              extra_canvas.toBlob(function(blob){
+
+                //server will detect binary data
+                onslyde.slides.connect(blob);
+                //send active options
+                onslyde.slides.connect(activeOptionsString);
+              });
+
+            }
+          });
+        }
+
+
         //clear options after sending
 //        activeOptions = [];
 
