@@ -210,6 +210,7 @@
 
         this.doGet = function () {
 //          req.open("GET", url + "?timestamp=" + new Date().getTime(), async);
+          console.log('---',url);
           req.open("GET", url, async);
           req.send(null);
 
@@ -993,20 +994,28 @@
     onslyde.ws = onslyde.prototype = {
 
       ip: function (thisSessionID) {
+        var BASE_URL;
+        console.log(location.host);
+        if(location.host.indexOf('onslyde.com') > 0){
+          BASE_URL = 'https://www.onslyde.com:8443';
+        }else{
+          BASE_URL = 'https://127.0.0.1:8443';
+        }
+
         //todo come up with better approach :)
         //there are 3 environments in which this call must be made:
         //(1) running just HTML locally
         //(2) running the ws server and HTML locally
         //(3) prod where ip needs to be hard coded since we get ec2 private IP on this call
 
-        var ai = new onslyde.core.ajax('/go/presenters/ip?session=' + thisSessionID, function (text, url) {
+        var ai = new onslyde.core.ajax(BASE_URL + '/go/presenters/ip?session=' + thisSessionID, function (text, url) {
           if (location.host === 'onslyde.com') {
             //(3) - set proper IP if in prod
             //todo - even though we set the IP and don't use data from server, this http request bootstraps an internal piece on each connect
             ip = '107.22.176.73';
           } else {
             //(2) - set proper IP dynamically for locally running server
-            ip = text;
+            ip = 'www.onslyde.com';
           }
 
         }, false);
@@ -1058,7 +1067,7 @@
           if (!ip) {
             ip = this.ip(thisSessionID);
           }
-          var location = 'ws://' + ip + ':8081/?session=' + thisSessionID + '&attendeeIP=' + this.getip();
+          var location = 'wss://' + ip + '/ws/?session=' + thisSessionID + '&attendeeIP=' + this.getip();
           ws = new WebSocket(location);
         } else {
           //we sent in a mock object from jquery polling
@@ -1146,22 +1155,31 @@
 
       init : function() {
         csessionID = sessionID;
-        futureGroups = toArray(this.groups());
-        for (var i = 0; i < futureGroups.length; i++) {
-          var thisGroupSlides = this.groupSlides(futureGroups[i]);
 
-          if(sessionMode === 'default'){
-            futureGroups[i].style.display = 'none';
-
-            for (var j = 0; j < thisGroupSlides.length; j++) {
-              //todo use classlist
-              thisGroupSlides[j].className = 'slide stage-right';
+        //with keynote, we must pull the slide count from their javascript framework
+        if(sessionMode === 'keynote'){
+          setTimeout(function(){
+            futureGroups = clone(gShowController.scriptManager.slideManager.header.slideList);
+          },1000);
+        }else{
+          //show and hide slides in order
+          //todo this was mainly for the simple html slide deck, so should probably conditional it after testing
+          futureGroups = toArray(this.groups());
+          for (var i = 0; i < futureGroups.length; i++) {
+            var thisGroupSlides = this.groupSlides(futureGroups[i]);
+            if(sessionMode === 'default'){
+              futureGroups[i].style.display = 'none';
+              for (var j = 0; j < thisGroupSlides.length; j++) {
+                //todo use classlist
+                thisGroupSlides[j].className = 'slide stage-right';
+              }
             }
           }
         }
 
         activeGroup = futureGroups.shift();
-        activeGroup.style.display = '';
+        //todo not sure if I need this so comment out
+        //activeGroup.style.display = '';
 
         futureSlides = toArray(this.groupSlides(activeGroup));
 
@@ -1195,6 +1213,7 @@
           }
         }
 
+        //todo move all dom manip out
         document.getElementById('sessionID').innerHTML = csessionID;
 
         this.checkOptions();
@@ -1236,42 +1255,43 @@
       },
 
       checkOptions : function() {
-//        console.log('checkOptions',groupSlideIndex,activeSlide)
-        //console.log('groupSlideIndex: ',activeGroup.querySelectorAll('section')[0].querySelectorAll('.chartimage').length);
+        //checkoptions is only used for polls, so count keynote out for now
+        if(sessionMode !== 'keynote'){
         if (groupSlideIndex === 0 && activeSlide !== 'undefined'){
           //fix this with activeslide not returning master on reverse....
           //if (activeSlide.getAttribute("data-option")  === 'master') {
-          if(activeGroup.querySelectorAll('section')[0].getAttribute("data-option")  === 'master') {
-            //init activeOptions
-            var groupOptions = this.groupOptions(activeGroup);
+            if (activeGroup.querySelectorAll('section')[0].getAttribute("data-option") === 'master') {
+              //init activeOptions
+              var groupOptions = this.groupOptions(activeGroup);
 
-            if(groupOptions.length > 0){
+              if (groupOptions.length > 0) {
 
-              if(activeSlide.querySelectorAll('.placeholder').length === 0 && activeGroup.querySelectorAll('section')[0].querySelectorAll('.chartimage').length === 0) {
-                barChart.clear();
-                $('div').remove('.placeholder');
-                for (var i = 0; i < groupOptions.length; i++) {
-                  barChart.addVoteOption(groupOptions[i]);
+                if (activeSlide.querySelectorAll('.placeholder').length === 0 && activeGroup.querySelectorAll('section')[0].querySelectorAll('.chartimage').length === 0) {
+                  barChart.clear();
+                  $('div').remove('.placeholder');
+                  for (var i = 0; i < groupOptions.length; i++) {
+                    barChart.addVoteOption(groupOptions[i]);
+                  }
+                  //console.log('activeSlide.querySelectorAll.placeholder.length', activeSlide.querySelectorAll('.placeholder').length);
+
+                  var barChartDiv = document.createElement("div");
+                  barChartDiv.className = 'placeholder';
+                  //give a unique id;
+                  barChartDiv.id = guid();
+                  activeSlide.appendChild(barChartDiv);
+                  barChart.draw();
+                  //catch all for enabling any past chart images
+                  var oldchartimages = document.querySelectorAll('.chartimage');
+                  for (var o = 0; o < oldchartimages.length; o++) {
+                    oldchartimages[o].style.display = '';
+                  }
+
                 }
-                //console.log('activeSlide.querySelectorAll.placeholder.length', activeSlide.querySelectorAll('.placeholder').length);
 
-                var barChartDiv = document.createElement("div");
-                barChartDiv.className = 'placeholder';
-                //give a unique id;
-                barChartDiv.id = guid();
-                activeSlide.appendChild(barChartDiv);
-                barChart.draw();
-                //catch all for enabling any past chart images
-                var oldchartimages = document.querySelectorAll('.chartimage');
-                for ( var o = 0; o < oldchartimages.length; o++ ) {
-                  oldchartimages[o].style.display = '';
-                }
 
               }
 
-
             }
-
           }
         }
       },
@@ -1281,7 +1301,6 @@
       },
 
       nextSlide: function () {
-        //console.log('nextSlide' + futureSlides.length + ' ' + groupSlideIndex);
         if (futureSlides.length > 0) {
 
           if (activeSlide.getAttribute("data-option") === 'master' &&
@@ -1325,9 +1344,12 @@
       },
 
       nextGroup : function() {
-
         //generate an image of the chart to save state
-        var baseCanvas = activeGroup.querySelectorAll('section')[0].querySelectorAll('.base')[0];
+        var baseCanvas;
+
+        if (sessionMode !== 'keynote') {
+          baseCanvas = activeGroup.querySelectorAll('section')[0].querySelectorAll('.base')[0];
+        }
 
         if(baseCanvas){
           //var placeHolder = activeGroup.querySelectorAll('section')[0].querySelectorAll('.placeholder')[0];
@@ -1345,55 +1367,69 @@
         }
 
         if (futureGroups.length > 0) {
-          activeOption = null;
+            activeOption = null;
 
-          groupSlideIndex = 0;
-          pastGroups.push(activeGroup);
+            groupSlideIndex = 0;
+            pastGroups.push(activeGroup);
 //          console.log(groupIndex,pastGroups.length);
 
-          groupIndex =  pastGroups.length;
+            groupIndex = pastGroups.length;
 
-          activeGroup.style.display = (sessionMode === 'default' ? 'none' : '');
-          activeGroup = futureGroups.shift();
-          activeGroup.style.display = '';
+            if (sessionMode !== 'keynote') {
+              activeGroup.style.display = (sessionMode === 'default' ? 'none' : '');
+              activeGroup = futureGroups.shift();
+              activeGroup.style.display = '';
+            } else {
+              //dont mess with style
+              //todo - move this style.display shit out
+              activeGroup = futureGroups.shift();
+            }
 
-          futureSlides = toArray(this.groupSlides(activeGroup));
-          //console.log('next group:futureSlides', futureSlides);
 
-          activeSlide = futureSlides.shift();
+            futureSlides = toArray(this.groupSlides(activeGroup));
+            //console.log('next group:futureSlides', futureSlides);
 
-          activeOptions = [];
-          this.checkOptions();
-          this.updateRemotes();
-          if(sessionMode === 'default'){
-            onslyde.ui.slideTo(activeSlide);
-          }
+            activeSlide = futureSlides.shift();
 
-          //reset votes
-          currentVotes = {};
-          totalVotes = 0;
+            activeOptions = [];
+            this.checkOptions();
+            this.updateRemotes();
+            if (sessionMode === 'default') {
+              onslyde.ui.slideTo(activeSlide);
+            }
 
-          this.sendMarkup();
+            //reset votes
+            currentVotes = {};
+            totalVotes = 0;
+
+            if (sessionMode !== 'keynote') {
+              //currently don't have a way to send markup (unless sending the entire page... eh no)
+              this.sendMarkup();
+            }
         } else {
           //eop
         }
       },
 
       sendMarkup : function() {
-        var sendElements = activeSlide.querySelectorAll('.send');
-        // see if there's anything on the new slide to send to remotes EXPERIMENTAL
-        if(activeSlide !== 'undefined'){
-          var allSend = "";
-          for(var i = 0; i < sendElements.length;i++) {
-            //send to remotes
-            var outerHtml = sendElements[i].outerHTML;
-            allSend += outerHtml;
+        try {
+          var sendElements = activeSlide.querySelectorAll('.send');
+          // see if there's anything on the new slide to send to remotes EXPERIMENTAL
+          if (activeSlide !== 'undefined') {
+            var allSend = "";
+            for (var i = 0; i < sendElements.length; i++) {
+              //send to remotes
+              var outerHtml = sendElements[i].outerHTML;
+              allSend += outerHtml;
+            }
+            if (allSend.length > 0) {
+              allSend = allSend.replace(/'/g, "&#39;");
+              var remoteMarkup = JSON.stringify({remoteMarkup: encodeURIComponent(allSend)});
+              this.connect(remoteMarkup);
+            }
           }
-          if(allSend.length > 0) {
-            allSend = allSend.replace(/'/g, "&#39;");
-            var remoteMarkup = JSON.stringify({remoteMarkup : encodeURIComponent(allSend)});
-            this.connect(remoteMarkup);
-          }
+        } catch (e) {
+          console.log('problem sending markup to remotes',e);
         }
       },
 
@@ -1402,9 +1438,14 @@
         if (pastGroups.length > 0) {
           futureGroups.unshift(activeGroup);
 
-          activeGroup.style.display = (sessionMode === 'default' ? 'none' : '');
-          activeGroup = pastGroups.pop();
-          activeGroup.style.display = '';
+          if(sessionMode !== 'keynote'){
+            activeGroup.style.display = (sessionMode === 'default' ? 'none' : '');
+            activeGroup = pastGroups.pop();
+            activeGroup.style.display = '';
+          }else{
+            //dont mess with style
+            activeGroup = pastGroups.pop();
+          }
 
           groupIndex = pastGroups.length;
           //
@@ -1459,6 +1500,10 @@
       },
 
       groupSlides: function (group) {
+        //if keynote (or other external framework) we just need a filler here
+        if(sessionMode === 'keynote'){
+          return [{}];
+        }
         //return all slides for a group
         return group.querySelectorAll("section");
       },
@@ -1530,6 +1575,35 @@
         }
 
 
+        function captureScreen(){
+          html2canvas(document.body, {
+            onrendered: function(canvas) {
+              var extra_canvas = document.createElement("canvas"),
+                newHeight = (window.innerHeight / 2),
+                newWidth = (window.innerWidth / 2);
+
+              extra_canvas.setAttribute('width',newWidth);
+              extra_canvas.setAttribute('height',newHeight);
+              var ctx = extra_canvas.getContext('2d');
+              ctx.drawImage(canvas,0,0,canvas.width, canvas.height,0,0,newWidth,newHeight);
+
+              //            document.body.appendChild(extra_canvas);
+              //            var aFileParts = ['<a id="a"><b id="b">hey!</b></a>'];
+              //            var oMyBlob = new Blob(canvas, {type : 'text/html'});
+              //            var arr = Uint8Array(new ArrayBuffer(1000));
+              extra_canvas.toBlob(function(blob){
+
+                //server will detect binary data
+                onslyde.slides.connect(blob);
+                //send active options
+                onslyde.slides.connect(activeOptionsString);
+              });
+
+            }
+          });
+        }
+
+
         //must wait for transition to end before capturing screen
         var thresholdms = 200,
           transInterval,
@@ -1558,38 +1632,18 @@
 
         };
 
-        if(transitionEvents.indexOf('webkitTransitionEnd') === -1){
-          window.addEventListener( 'webkitTransitionEnd', eventEndListener, false );
-          transitionEvents.push('webkitTransitionEnd');
+        if(sessionMode === 'keynote'){
+          captureScreen();
+        }else{
+          if(transitionEvents.indexOf('webkitTransitionEnd') === -1){
+            window.addEventListener( 'webkitTransitionEnd', eventEndListener, false );
+            transitionEvents.push('webkitTransitionEnd');
+          }
         }
 
-        function captureScreen(){
-          html2canvas(document.body, {
-            onrendered: function(canvas) {
-              var extra_canvas = document.createElement("canvas"),
-                newHeight = (window.innerHeight / 2),
-                newWidth = (window.innerWidth / 2);
 
-              extra_canvas.setAttribute('width',newWidth);
-              extra_canvas.setAttribute('height',newHeight);
-              var ctx = extra_canvas.getContext('2d');
-              ctx.drawImage(canvas,0,0,canvas.width, canvas.height,0,0,newWidth,newHeight);
 
-              //            document.body.appendChild(extra_canvas);
-              //            var aFileParts = ['<a id="a"><b id="b">hey!</b></a>'];
-              //            var oMyBlob = new Blob(canvas, {type : 'text/html'});
-              //            var arr = Uint8Array(new ArrayBuffer(1000));
-              extra_canvas.toBlob(function(blob){
 
-                //server will detect binary data
-                onslyde.slides.connect(blob);
-                //send active options
-                onslyde.slides.connect(activeOptionsString);
-              });
-
-            }
-          });
-        }
 
 
         //clear options after sending
@@ -1811,6 +1865,19 @@
         array[i] = obj[i];
       }
       return array;
+    };
+
+    var clone = function(obj) {
+      if (null == obj || "object" !== typeof obj) {
+        return obj;
+      }
+      var copy = obj.constructor();
+      for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) {
+          copy[attr] = obj[attr];
+        }
+      }
+      return copy;
     };
 
     var getFrame = function () {

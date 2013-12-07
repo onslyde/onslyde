@@ -84,7 +84,8 @@ module.exports = function(grunt) {
           barChart: true,
           Image: true,
           wsf: true,
-          html2canvas: true
+          html2canvas: true,
+          gShowController: true
         }
       },
       gruntfile: {

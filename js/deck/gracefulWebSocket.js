@@ -3,7 +3,7 @@
 
   window.addEventListener('load', function (e) {
     // in fallback mode: connect returns a dummy object implementing the WebSocket interface
-    wsf = onslyde.wsFallback.createSocket().gracefulWebSocket('ws://' + onslyde.ws.ip(onslyde.ws.sessionID()) + ':8081'); // the ws-protocol will automatically be changed to http
+    wsf = onslyde.wsFallback.createSocket().gracefulWebSocket('wss://' + onslyde.ws.ip(onslyde.ws.sessionID()) + '/ws/'); // the ws-protocol will automatically be changed to http
   }, false);
 
   onslyde.wsFallback = onslyde.prototype = {
@@ -25,20 +25,21 @@
       function buildFallbackURL(current_url)
       {
         var WS_URL = {
-          protocol    :   "ws",
+          protocol    :   "wss",
           ip_address  :   "107.22.176.73",
-          port        :   "8081"
+          port        :   "80"
         };
 
         // If websockets enabled, the fallback url will be the default onslyde URL.
-        var ONSLYDE_URL = "http://onslyde.com";
+        var ONSLYDE_URL = "https://www.onslyde.com";
 
-        var ws_url = WS_URL.protocol + "://" + WS_URL.ip_address + ":" + WS_URL.port;
+        var ws_url = WS_URL.protocol + "://" + WS_URL.ip_address + "/ws/";
         return (current_url === ws_url) ? ONSLYDE_URL :
           current_url
             .replace("ws:","http:")     // If no websockets, replace current
             .replace("wss:","https:")   // websocket protocol with congruent
-            .replace(WS_URL.port,"8080"); // http protocol, and alter the port
+            .replace('/ws/',':8443')
+            .replace(WS_URL.port,"8443"); // http protocol, and alter the port
       }
 
       return{
