@@ -996,7 +996,7 @@
       ip: function (thisSessionID) {
         var BASE_URL;
         console.log(location.host);
-        if(location.host.indexOf('onslyde.com') > 0){
+        if(location.host.indexOf('onslyde.com') >= 0){
           BASE_URL = 'https://www.onslyde.com:8443';
         }else{
           BASE_URL = 'https://127.0.0.1:8443';
