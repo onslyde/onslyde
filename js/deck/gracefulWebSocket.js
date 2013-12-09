@@ -38,8 +38,8 @@
           current_url
             .replace("ws:","http:")     // If no websockets, replace current
             .replace("wss:","https:")   // websocket protocol with congruent
-            .replace('/ws/',':8443')
-            .replace(WS_URL.port,"8443"); // http protocol, and alter the port
+            .replace('/ws/','')
+            .replace(WS_URL.port,""); // http protocol, and alter the port
       }
 
       return{
@@ -93,7 +93,7 @@
 
                 if (senddata.indexOf('speak:') === 0) {
                   vote = senddata.replace(('speak:'), '');
-                  posturl = opts.fallbackSendURL + '/go/attendees/speak';
+                  posturl = opts.fallbackSendURL + '/poll/attendees/speak';
                   senddata = {"speak":vote, "sessionID":onslyde.ws.sessionID(), "attendeeIP":attendeeIP};
                 } else {
                   if (senddata.indexOf('vote:') === 0) {
@@ -116,7 +116,7 @@
                     };
                   }
 
-                  posturl = opts.fallbackSendURL + '/go/attendees/vote';
+                  posturl = opts.fallbackSendURL + '/poll/attendees/vote';
                   senddata = {"vote":vote, "sessionID":onslyde.ws.sessionID(), "attendeeIP":attendeeIP, "username":window.userObject.name, "email":window.userObject.email, "voteTime": new Date().getTime()};
                 }
 
@@ -182,7 +182,7 @@
 
               var pollData = getFallbackParams(tracked);
 
-              var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/go/attendees/json?' + encodeData(pollData), function (text, url) {
+              var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/poll/attendees/json?' + encodeData(pollData), function (text, url) {
                 pollSuccess(text);
               }, false);
               ai.doGet();
@@ -216,7 +216,7 @@
           var senddata = {"sessionID":onslyde.ws.sessionID(), "attendeeIP":onslyde.ws.getip()};
 
           //create the ajax object for use when client disconnects
-          var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/go/attendees/remove', function (text, url) {}, false);
+          var ai = new onslyde.core.ajax(opts.fallbackPollURL + '/poll/attendees/remove', function (text, url) {}, false);
 
           window.addEventListener("beforeunload", function (e) {
             ws.close();
