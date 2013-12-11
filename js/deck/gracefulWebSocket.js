@@ -116,7 +116,7 @@
                     };
                   }
 
-                  posturl = opts.fallbackSendURL + '/poll/attendees/vote';
+                  posturl = opts.fallbackSendURL + ':8443/go/attendees/vote';
                   senddata = {"vote":vote, "sessionID":onslyde.ws.sessionID(), "attendeeIP":attendeeIP, "username":window.userObject.name, "email":window.userObject.email, "voteTime": new Date().getTime()};
                 }
 
