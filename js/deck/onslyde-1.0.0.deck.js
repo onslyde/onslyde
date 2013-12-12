@@ -210,7 +210,6 @@
 
         this.doGet = function () {
 //          req.open("GET", url + "?timestamp=" + new Date().getTime(), async);
-          console.log('---',url);
           req.open("GET", url, async);
           req.send(null);
 
@@ -995,7 +994,6 @@
 
       ip: function (thisSessionID) {
         var BASE_URL;
-        console.log(location.host);
         if(location.host.indexOf('onslyde.com') >= 0){
           BASE_URL = 'https://www.onslyde.com:8443';
         }else{
@@ -1012,7 +1010,7 @@
           if (location.host === 'onslyde.com') {
             //(3) - set proper IP if in prod
             //todo - even though we set the IP and don't use data from server, this http request bootstraps an internal piece on each connect
-            ip = '107.22.176.73';
+            ip = 'www.onslyde.com';
           } else {
             //(2) - set proper IP dynamically for locally running server
             ip = 'www.onslyde.com';
@@ -1027,7 +1025,7 @@
           ai.doGet();
         } else {
           //(1) HTML is running locally and we can't make ajax request until implement jsonp or CORS headers
-          ip = '107.22.176.73';
+          ip = 'www.onslyde.com';
         }
 
         return ip;
