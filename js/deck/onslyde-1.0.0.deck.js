@@ -1575,6 +1575,9 @@
 
         function captureScreen(){
           html2canvas(document.body, {
+            useCORS: true,
+            logging: true,
+            allowTaint: true,
             onrendered: function(canvas) {
               var extra_canvas = document.createElement("canvas"),
                 newHeight = (window.innerHeight / 2),
