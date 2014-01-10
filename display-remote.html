@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Onslyde Remote</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+    <!-- enable full-screen mode -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- controls the appearance of the status bar in full-screen mode -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+
+    <link href="css/deck/remote.css?v=200" media="screen" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31854873-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+<div id="roulette"></div>
+<div id="browser">
+
+
+    <nav class="primary">
+        <ul>
+            <li class="logo-banner"><h2 id="vote-label">Get Ready!</h2></li>
+            <li>
+                <input id="option1" class="button" type="submit" value="" />
+                <input id="option2" class="button" type="submit" value="" />
+                <input id="agree" class="button" type="submit" value="Nice!" />
+                <input id="disagree" class="button" type="submit" value="Thumbs Down!"/>
+            </li>
+
+        </ul>
+    </nav>
+
+    <div id="slide-group-container">
+
+        <div id="front" class="normal">
+
+            <div id="about-page" class="slide">
+                <div id="from-slide">
+
+                </div>
+                <p>
+                    <a href="https://twitter.com/edgeconf" target="_blank">Follow @onslyde</a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript" src="js/deck/dist/onslyde-core-1.0.0.js" ></script>
+<script type="text/javascript">
+
+
+    onslyde({
+        defaultPageID:'about-page',
+        touchEnabled: false,
+        singlePageModel: true,
+        deckRemote: {sessionID: (onslyde.core.getParameterByName("session") || 175)}
+    });
+
+</script>
+<script type="text/javascript" src="js/deck/dist/onslyde-remote-1.0.0.min.js"></script>
+</body>
+</html>

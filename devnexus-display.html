@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>devnexus</title>
+
+    <meta name="description" content="onslyde example">
+    <meta name="author" content="Wesley Hales">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- controls the appearance of the status bar in full-screen mode -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link href="css/deck/display.css" rel="stylesheet" />
+
+
+    <style>
+        .placeholder {
+            height: 125px;
+            width: 85%;
+        }
+    </style>
+</head>
+<body>
+<div id="disagree" class="hide-disagree">
+    Disagree
+</div>
+<div id="agree" class="hide-agree">
+    Agree
+</div>
+<div id="stats">
+    <span style="color:#fff"><span id="wscount"></span> Connected Attendees</span>
+</div>
+
+<div class="address">
+    <h4 style="text-transform: lowercase;">connect now <span style="color:#13daec;">http://onslyde.com/go/<span id="sessionID"></span></span></h4>
+</div>
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides" id="slidfast">
+
+
+
+    <section class="slide-group">
+
+        <section class="slide" data-option="master">
+            <h3 style="color:orange" class="send">Does this excite you?</h3>
+        </section>
+
+        <section class="slide" data-option="Yes i like this">
+            <div class="send">
+                Awesome, then keep going
+            </div>
+        </section>
+
+        <section class="slide" data-option="No Way not for me">
+            <div class="send">
+                Alrighty, go use Keynote or Powerpoint and pray the audience stays awake ;)
+            </div>
+        </section>
+
+    </section>
+
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/deck/dist/onslyde-deck-1.0.0.min.js" ></script>
+<script>
+
+    onslyde({
+        deck: {sessionID: 175, mode: 'default'}
+    });
+</script>
+
+<script src="js/deck/libs/jquery.flot.js"></script>
+</body>
+</html>

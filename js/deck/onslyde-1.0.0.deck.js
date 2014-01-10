@@ -1166,7 +1166,7 @@
           for (var i = 0; i < futureGroups.length; i++) {
             var thisGroupSlides = this.groupSlides(futureGroups[i]);
             if(sessionMode === 'default'){
-              futureGroups[i].style.display = 'none';
+              futureGroups[i].style.display = i > 0 ? 'none' : '';
               for (var j = 0; j < thisGroupSlides.length; j++) {
                 //todo use classlist
                 thisGroupSlides[j].className = 'slide stage-right';
