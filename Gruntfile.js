@@ -20,7 +20,10 @@ module.exports = function(grunt) {
           'js/deck/dist/onslyde-deck-1.0.0.js': ['js/deck/libs/canvas2blob.js','js/deck/libs/html2canvas.js','js/deck/deck.js','js/deck/onslyde-1.0.0.deck.js'],
           //core is used only in the remote for init
           'js/deck/dist/onslyde-core-1.0.0.js': ['js/deck/onslyde-1.0.0.deck.js'],
-          'js/deck/dist/onslyde-remote-1.0.0.js': ['js/deck/gracefulWebSocket.js','js/deck/remote.js']
+          'js/deck/dist/onslyde-remote-1.0.0.js': ['js/deck/gracefulWebSocket.js',
+                                                   'js/deck/remote.js',
+                                                   'js/deck/libs/gplus-oauth.js',
+                                                   'js/deck/libs/fastclick.min.js']
         }
       }
     },

@@ -1147,7 +1147,8 @@
       groupIndex = 0,
       currentVotes = {},
       totalVotes = 0,
-      transitionEvents = [];
+      transitionEvents = [],
+      firstLoad = false;
 
     onslyde.slides = onslyde.prototype = {
 
@@ -1220,8 +1221,9 @@
           focusPage = activeSlide;
           onslyde.ui.slideTo(activeSlide);
         }
+        firstLoad = true;
         this.connect('::connect::');
-        setTimeout(function(){onslyde.slides.updateRemotes();},1000);
+
       },
 
       connect : function(initString) {
@@ -1229,7 +1231,10 @@
           if (!ws) {
             onslyde.ws.connect(null, initString, csessionID);
             //todo - quit using settimeouts and start using promises for connection
-            setTimeout(function(){onslyde.slides.sendMarkup();},1000);
+            setTimeout(function(){
+              onslyde.slides.updateRemotes();
+              onslyde.slides.sendMarkup();
+            },1000);
           } else {
             onslyde.ws._send(initString, sessionID);
           }
@@ -1593,7 +1598,6 @@
               //            var oMyBlob = new Blob(canvas, {type : 'text/html'});
               //            var arr = Uint8Array(new ArrayBuffer(1000));
               extra_canvas.toBlob(function(blob){
-
                 //server will detect binary data
                 onslyde.slides.connect(blob);
                 //send active options
@@ -1633,8 +1637,9 @@
 
         };
 
-        if(sessionMode === 'keynote'){
+        if(sessionMode === 'keynote' || firstLoad){
           captureScreen();
+          firstLoad = false;
         }else{
           if(transitionEvents.indexOf('webkitTransitionEnd') === -1){
             window.addEventListener( 'webkitTransitionEnd', eventEndListener, false );

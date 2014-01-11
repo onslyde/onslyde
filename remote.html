@@ -43,6 +43,10 @@
 
     </ul>
   </nav>
+  <div id="auth-holder" class="auth-holder">
+    <span id="authorize-button"><i class="pictogram">&#62223</i> Authorize</span>
+    <div id="usercontent"></div>
+  </div>
 
   <div id="slide-group-container">
 
@@ -63,18 +67,27 @@
   </div>
 
 </div>
-<script type="text/javascript" src="js/deck/dist/onslyde-core-1.0.0.js" ></script>
+<script type="text/javascript" src="js/deck/dist/onslyde-core-1.0.0.min.js" ></script>
 <script type="text/javascript">
 
 
   onslyde({
-    defaultPageID:'about-page',
-    touchEnabled: false,
-    singlePageModel: true,
     deckRemote: {sessionID: (onslyde.core.getParameterByName("session") || 175)}
   });
 
+  function gplusCallBack(){
+    //google api won't take this as callback param for some reason
+    onslyde.oauth.handleClientLoad();
+  }
+
 </script>
-<script type="text/javascript" src="js/deck/dist/onslyde-remote-1.0.0.min.js"></script>
+<script type="text/javascript" src="js/deck/dist/onslyde-remote-1.0.0.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=gplusCallBack"></script>
+
+<script>
+  window.addEventListener('load', function() {
+    FastClick.attach(document.body);
+  }, false);
+</script>
 </body>
 </html>
