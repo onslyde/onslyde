@@ -49,6 +49,7 @@
         request.execute(function(resp) {
           window.userObject.name = resp.displayName;
           window.userObject.pic = resp.image.url;
+          checkUser()
         });
       });
       gapi.client.load('oauth2', 'v2', function() {

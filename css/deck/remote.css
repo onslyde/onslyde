@@ -189,7 +189,10 @@ nav.primary > ul li a {
 #disagree,
 #agree,
 #option1,
-#option2 {
+#option2,
+#ask,
+#asksubmit,
+#ask-input {
   font-family: 'Lato-Bold', sans-serif;
   color: #fff;
   padding: 20px 0;
@@ -205,8 +208,29 @@ nav.primary > ul li a {
   border-radius: 0;
 }
 
+#disagree,
+#agree {
+  width: 49%;
+}
+
+#agree {
+  background-color: #469c51;
+}
+
+#disagree {
+  background-color: #cf7a84;
+}
+
 #speak {
   border-bottom: 0;
+}
+
+#asksubmit {
+  padding: 12px 20px;
+  width: auto;
+  margin: 0 auto;
+  background-color: #464646;
+  border: none;
 }
 
 .auth-holder {
@@ -281,4 +305,17 @@ nav.primary li.logo-banner {
 .speaker-name {
   display: block;
   margin: 5px;
+}
+
+#ask-input {
+  display: none;
+}
+
+#ask-text {
+  resize: none;
+  webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 90%;
+  margin: 0 auto;
 }

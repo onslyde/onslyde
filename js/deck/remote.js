@@ -1,10 +1,19 @@
-var option1 = document.querySelector('#option1'),
-  option2 = document.querySelector('#option2'),
-  disagree = document.querySelector('#disagree'),
-  agree = document.querySelector('#agree'),
-  voteLabel = document.querySelector('#vote-label'),
+var option1 = document.getElementById('option1'),
+  option2 = document.getElementById('option2'),
+  disagree = document.getElementById('disagree'),
+  agree = document.getElementById('agree'),
+  voteLabel = document.getElementById('vote-label'),
+  ask = document.getElementById('ask'),
+  asksubmit = document.getElementById('asksubmit'),
+  askinput = document.getElementById('ask-input'),
+  asktext = document.getElementById('ask-text'),
   voted,
   wsf = null;
+
+
+function checkUser(){
+  voteLabel.innerHTML = (window.userObject && window.userObject.name) ? 'Connected as ' + window.userObject.name : 'Connected Anonymously';
+}
 
 
 function disablePoll(){
@@ -12,7 +21,7 @@ function disablePoll(){
   option2.disabled = true;
   option1.style.opacity = 0.2;
   option2.style.opacity = 0.2;
-  voteLabel.innerHTML = 'Waiting...';
+  checkUser();
 }
 
 
@@ -46,7 +55,7 @@ disagree.onclick = function(event) {
   wsf.send('props:disagree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
   disagree.disabled = true;
   disagree.style.opacity = 0.4;
-  disagree.value = "Waiting for next slide";
+//  disagree.value = "Waiting for next slide";
   return false;
 };
 
@@ -55,9 +64,27 @@ agree.onclick = function(event) {
   wsf.send('props:agree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
   agree.disabled = true;
   agree.style.opacity = 0.4;
-  agree.value = "Waiting for next slide";
+//  agree.value = "Waiting for next slide";
   return false;
 };
+
+ask.onclick = function(event) {
+  askinput.style.display = 'block';
+  ask.style.display = 'none';
+  return false;
+};
+
+asksubmit.onclick = function(event) {
+  _gaq.push(['_trackEvent', 'onslyde-asksubmit', 'ask']);
+  askinput.style.display = 'none';
+  ask.style.display = 'block';
+  var question = asktext.value;
+  question = question.replace(/'/g, "&#39;");
+  question = JSON.stringify({topicQuestion: encodeURIComponent(question)});
+  wsf.send(question);
+  return false;
+};
+
 
 
 
