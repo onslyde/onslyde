@@ -5,6 +5,7 @@ var option1 = document.getElementById('option1'),
   voteLabel = document.getElementById('vote-label'),
   ask = document.getElementById('ask'),
   asksubmit = document.getElementById('asksubmit'),
+  askcancel = document.getElementById('askcancel'),
   askinput = document.getElementById('ask-input'),
   asktext = document.getElementById('ask-text'),
   voted,
@@ -84,8 +85,12 @@ asksubmit.onclick = function(event) {
   wsf.send(question);
   return false;
 };
-
-
+askcancel.onclick = function(event) {
+  _gaq.push(['_trackEvent', 'onslyde-askcancel', 'ask']);
+  askinput.style.display = 'none';
+  ask.style.display = 'block';
+  return false;
+};
 
 
 function enablePoll(e){
