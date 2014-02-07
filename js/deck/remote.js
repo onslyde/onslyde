@@ -86,10 +86,12 @@ asksubmit.onclick = function(event) {
   return false;
 };
 askcancel.onclick = function(event) {
-  _gaq.push(['_trackEvent', 'onslyde-askcancel', 'ask']);
-  askinput.style.display = 'none';
-  ask.style.display = 'block';
-  return false;
+	_gaq.push(['_trackEvent', 'onslyde-askcancel', 'ask']);
+	askinput.style.display = 'none';
+	ask.style.display = 'block';
+	asktext.value = '';
+	event.preventDefault();
+	return false;
 };
 
 
