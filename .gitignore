@@ -1,3 +1,5 @@
+js/deck/dist/
+node_modules/
 .DS_Store
 *.ipr
 *.iml
