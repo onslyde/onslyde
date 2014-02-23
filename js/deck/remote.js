@@ -42,12 +42,7 @@ option1.onclick = function(event) {
   return false;
 };
 
-option2.onclick = function(event) {
-  _gaq.push(['_trackEvent', 'onslyde-option2', 'vote']);
-  sendVote(event,option2.value);
-  disablePoll();
-  return false;
-};
+
 
 
 
