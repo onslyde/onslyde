@@ -28,13 +28,6 @@
       } else {
         authHolder.style.display = '';
         authorizeButton.onclick = onslyde.oauth.handleAuthClick;
-        option2.onclick = function(event) {
-          onslyde.oauth.handleAuthClick;
-          _gaq.push(['_trackEvent', 'onslyde-option2', 'vote']);
-          sendVote(event,option2.value);
-          disablePoll();
-          return false;
-        };
       }
     },
 
