@@ -163,7 +163,7 @@
     };
 
 
-    var ai = new onslyde.core.ajax('https://www.onslyde.com:8443/go/questions/check?id=123', function (json) {
+    var ai = new onslyde.core.ajax('https://www.onslyde.com:8443/go/questions/check?id=' + onslyde.core.getParameterByName("mac"), function (json) {
         json = JSON.parse(json);
         var parentNode = document.getElementById('allslides');
 
