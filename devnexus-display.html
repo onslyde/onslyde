@@ -9,16 +9,18 @@
     <meta name="description" content="onslyde example">
     <meta name="author" content="Wesley Hales">
 
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <!-- controls the appearance of the status bar in full-screen mode -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="stylesheet" href="https://www.onslyde.com/css/reveal/reveal.css">
+    <link rel="stylesheet" href="https://www.onslyde.com/css/reveal/theme/default.css" id="theme">
 
-    <link href="css/deck/display.css" rel="stylesheet" />
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="https://www.onslyde.com/js/reveal/lib/css/zenburn.css">
+
+    <link rel="stylesheet" href="https://www.onslyde.com/css/deck.css">
 
 
     <style>
         .placeholder {
-            height: 125px;
+            height: 200px;
             width: 85%;
         }
     </style>
@@ -34,46 +36,179 @@
     <span style="color:#fff"><span id="wscount"></span> Connected Attendees</span>
 </div>
 
-<div class="address">
-    <h4 style="text-transform: lowercase;">connect now <span style="color:#13daec;">http://onslyde.com/go/<span id="sessionID"></span></span></h4>
-</div>
 <!-- Any section element inside of this container is displayed as a slide -->
-<div class="slides" id="slidfast">
+<div class="reveal" >
+    <div class="address">
+        <h4 style="text-transform: lowercase;">connect now <span style="color:#13daec;">onslyde.com/go/<span id="sessionID"></span></span></h4>
+    </div>
 
+    <div class="slides" id="allslides">
+        <section class="slide-group">
 
+            <section class="slide">
+                <h3 style="color:orange" class="send">Welcome</h3>
+            </section>
+
+        </section>
+
+    </div>
+
+</div>
+
+<script type="text/html" id="slide_template">
+
+    <%
+
+    for ( var i = 0; i < questiondata.length; i++ ) {
+    %>
 
     <section class="slide-group">
 
         <section class="slide" data-option="master">
-            <h3 style="color:orange" class="send">Does this excite you?</h3>
+            <h3 style="color:orange" class="send"><%=questiondata[i].question%></h3>
         </section>
 
-        <section class="slide" data-option="Yes i like this">
+        <section class="slide" data-option="<%=questiondata[i].answer1%>">
             <div class="send">
-                Awesome, then keep going
+                na
             </div>
         </section>
 
-        <section class="slide" data-option="No Way not for me">
+        <section class="slide" data-option="<%=questiondata[i].answer2%>">
             <div class="send">
-                Alrighty, go use Keynote or Powerpoint and pray the audience stays awake ;)
+                na
             </div>
         </section>
 
     </section>
 
+    <% } %>
+</script>
 
+<script src="https://www.onslyde.com/js/reveal/lib/js/head.min.js"></script>
+<script src="https://www.onslyde.com/js/reveal/reveal.min.js"></script>
 
-</div>
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'https://www.onslyde.com/js/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://www.onslyde.com/js/reveal/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'https://www.onslyde.com/js/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'https://www.onslyde.com/js/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'https://www.onslyde.com/js/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://www.onslyde.com/js/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+
 
 <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/deck/dist/onslyde-deck-1.0.0.min.js" ></script>
 <script>
+    var questiondata = [];
+    //  {"id":1,"question":"What is your name","created":1392999669000,"attendeeId":0,"timeStart":1393127448000,"timeEnd":1393128532000,"identifier":"123","answer1":"dog","answer2":"Wesley"}
 
     onslyde({
-        deck: {sessionID: 175, mode: 'default'}
+        deck: {sessionID: 175, mode: 'reveal'}
     });
+
+    onslyde.template = onslyde.prototype = {
+
+        // Simple JavaScript Templating
+        // John Resig - http://ejohn.org/ - MIT Licensed
+        simple:function (str, data) {
+            /*jshint -W054 */
+            var cache = {};
+
+            // Figure out if we're getting a template, or if we need to
+            // load the template - and be sure to cache the result.
+            var fn = !/\W/.test(str) ?
+                    cache[str] = cache[str] ||
+                            onslyde.template.simple(document.getElementById(str).innerHTML) :
+
+                // Generate a reusable function that will serve as a template
+                // generator (and which will be cached).
+                    new Function("obj",
+                            "var p=[],print=function(){p.push.apply(p,arguments);};" +
+
+                                // Introduce the data as local variables using with(){}
+                                    "with(obj){p.push('" +
+
+                                // Convert the template into pure JavaScript
+                                    str
+                                            .replace(/[\r\t\n]/g, " ")
+                                            .split("<%").join("\t")
+                                            .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+                                            .replace(/\t=(.*?)%>/g, "',$1,'")
+                                            .split("\t").join("');")
+                                            .split("%>").join("p.push('")
+                                            .split("\r").join("\\'") + "');}return p.join('');");
+
+            // Provide some basic currying to the user
+            return data ? fn(data) : fn;
+
+        }
+    };
+
+
+    var ai = new onslyde.core.ajax('https://www.onslyde.com:8443/go/questions/check?id=123', function (json) {
+        json = JSON.parse(json);
+        var parentNode = document.getElementById('allslides');
+
+        if( Object.prototype.toString.call( json ) === '[object Array]' ) {
+            questiondata = json;
+        }else{
+            questiondata.push(json);
+        }
+
+        //order questions so we hit slides in order
+        questiondata.sort(function(a, b) {
+            return a.timeStart - b.timeStart;
+        })
+
+        var templatedata = onslyde.template.simple('slide_template',questiondata);
+        console.log(templatedata);
+        parentNode.insertAdjacentHTML('beforeend',templatedata);
+    });
+    ai.doGet();
+
+    var timeSlots = [];
+    for (var j=0;j < questiondata.length;j++) {
+        timeSlots.push({start:questiondata[j].timeStart,end:questiondata[j].timeEnd});
+    }
+
+    setInterval(function(){
+        currentTime = new Date();
+        if(typeof timeSlots[0] === 'object'){
+            if(currentTime > new Date(timeSlots[0].start) && currentTime < new Date(timeSlots[0].end)) {
+                console.log('match')
+                timeSlots.shift();
+                Reveal.right();
+                onslyde.slides.nextGroup();
+            }
+        }
+
+        console.log('timer----')
+    },1000);
+
+
 </script>
+
+
+
+
 
 <script src="js/deck/libs/jquery.flot.js"></script>
 </body>

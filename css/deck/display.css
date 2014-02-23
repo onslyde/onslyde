@@ -51,20 +51,19 @@ Mobile Device Page Setup
 
 .slide {
   position: absolute;
-  background-color: #ececec;
+  background-color: #2c2c2c;
   border-radius: 15px;
   border: 3px solid white;
-  margin: 35px;
   padding:  15px;
   bottom:0;
   top:0;
   left:0;
   right:0;
   width: auto;
-  background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
-  background: linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C */
+  background: -moz-linear-gradient(top, rgb(47, 47, 47) 0%, rgb(23, 23, 23) 47%, rgb(0, 0, 0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(47, 47, 47)), color-stop(47%, rgb(21, 21, 21)), color-stop(100%, rgb(0, 0, 0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgb(53, 53, 53) 0%, rgb(21, 21, 21) 47%, rgb(0, 0, 0) 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(top, rgb(48, 48, 48) 0%, rgb(22, 22, 22) 47%, rgb(0, 0, 0) 100%); /* W3C */
 }
 
 /*************************************************
@@ -196,7 +195,7 @@ formatting
 }
 
 #slidfast .tickLabel {
-  color: #000;
+  color: #fff;
 }
 
 .bold {
@@ -312,6 +311,12 @@ h2 {
 
 .address h4 {
   padding: 5px;
+  margin:0;
+
+}
+
+.address h4 > span {
+  font-size: 2.5em;
 }
 
 #stats {
