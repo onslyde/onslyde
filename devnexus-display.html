@@ -117,11 +117,20 @@
 <script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/deck/dist/onslyde-deck-1.0.0.min.js" ></script>
 <script>
-    var questiondata = [];
+    var questiondata = [], DNsessionid;
     //  {"id":1,"question":"What is your name","created":1392999669000,"attendeeId":0,"timeStart":1393127448000,"timeEnd":1393128532000,"identifier":"123","answer1":"dog","answer2":"Wesley"}
+    var macAddress = onslyde.core.getParameterByName("mac");
+
+    switch (macAddress) {
+        case "80:1f:02:d3:82:12": //room102
+            DNsessionid = 552;
+            break;
+        default:
+            DNsessionid = 175;
+    }
 
     onslyde({
-        deck: {sessionID: 175, mode: 'reveal'}
+        deck: {sessionID: DNsessionid, mode: 'reveal'}
     });
 
     onslyde.template = onslyde.prototype = {
@@ -163,7 +172,7 @@
     };
 
 
-    var ai = new onslyde.core.ajax('https://www.onslyde.com:8443/go/questions/check?id=' + onslyde.core.getParameterByName("mac"), function (json) {
+    var ai = new onslyde.core.ajax('https://www.onslyde.com:8443/go/questions/check?id=' + macAddress, function (json) {
         json = JSON.parse(json);
         var parentNode = document.getElementById('allslides');
 
