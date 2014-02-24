@@ -33,7 +33,7 @@
     Agree
 </div>
 <div id="stats">
-    <span style="color:#fff"><span id="wscount"></span> Connected Attendees</span>
+    <span style="color:#fff"><span id="wscount"></span> Connected Attendees <span style="color:#ececec;font-size:10px" id="mac"></span></span>
 </div>
 
 <!-- Any section element inside of this container is displayed as a slide -->
@@ -120,7 +120,7 @@
     var questiondata = [], DNsessionid;
     //  {"id":1,"question":"What is your name","created":1392999669000,"attendeeId":0,"timeStart":1393127448000,"timeEnd":1393128532000,"identifier":"123","answer1":"dog","answer2":"Wesley"}
     var macAddress = onslyde.core.getParameterByName("mac");
-
+    document.getElementById('mac').innerHTML = macAddress;
     switch (macAddress) {
         case "80:1f:02:d3:82:12": //room102
             DNsessionid = 552;
@@ -131,7 +131,7 @@
         case "80:1f:02:d3:82:1c": //ballroomc
             DNsessionid = 554;
             break;
-        case "80:1f:02:d3:82:23": //ballroomd
+        case "b8:27:eb:33:bc:f1": //ballroomd
             DNsessionid = 555;
             break;
         case "80:1f:02:d3:82:0e": //ballroomb
