@@ -63,17 +63,6 @@ a router/hotspot for the audience to connect to.</p>
 Please see the complete site at <http://onslyde.com/>.  
 Or, read [this post](http://wesleyhales.com/blog/2013/02/25/How-Collective-Wisdom-Shapes-a-Talk/) for the full history.
 
-#In the wild
-Here is a presentation from February 2013 where onslyde was used:
-http://www.youtube.com/watch?v=n-7Xu75T2bU
-
-*Points in the talk where the audience voted:*
-* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=101s">Vote 1</a>
-* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=583s">Vote 2</a>
-* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=1571s">Vote 3</a>
-* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=1762s">Vote 4</a>
-* <a href="http://www.youtube.com/watch?feature=player_detailpage&amp;v=n-7Xu75T2bU#t=3451s">Vote 5</a>
-
 #Start presenting
 <ul>
 <li><a href="http://onslyde.com" target="_blank">Signup here</a>, login, and go to "Getting Started".</li>
@@ -85,6 +74,10 @@ The audience remote controls have been tested on many mobile browsers.
 
 #Custom Remote
 Feel free to rebrand the remote for the audience with your twitter handle etc... Send a pull request and I'll add it. 
+
+#Sponsors
+IDE Licenses are kindly provided by:
+<img src="http://www.jetbrains.com/img/logos/logo_jetbrains.gif" width="300px"/>
 
 # License
 
