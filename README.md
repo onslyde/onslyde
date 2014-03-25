@@ -77,6 +77,7 @@ Feel free to rebrand the remote for the audience with your twitter handle etc...
 
 #Sponsors
 IDE Licenses are kindly provided by:
+
 <img src="http://www.jetbrains.com/img/logos/logo_jetbrains.gif" width="300px"/>
 
 # License
