@@ -36,27 +36,17 @@ function sendVote(event,option){
 }
 
 option1.onclick = function(event) {
-  if (window.userObject.name === '') {
-    option2.onclick = onslyde.oauth.handleAuthClick;
-  } else {
     _gaq.push(['_trackEvent', 'onslyde-option1', 'vote']);
     sendVote(event,option1.value);
     disablePoll();
     return false;
-  }
-
 };
 
 option2.onclick = function(event) {
-  if (window.userObject.name === '') {
-    option2.onclick = onslyde.oauth.handleAuthClick;
-  } else {
     _gaq.push(['_trackEvent', 'onslyde-option2', 'vote']);
     sendVote(event,option2.value);
     disablePoll();
     return false;
-  }
-
 };
 
 
