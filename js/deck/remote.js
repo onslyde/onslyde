@@ -16,6 +16,23 @@ function checkUser(){
   voteLabel.innerHTML = (window.userObject && window.userObject.name) ? 'Connected as ' + window.userObject.name : 'Connected Anonymously';
 }
 
+var reqListener = function() {
+  var dateStr = oReq.getResponseHeader('Date');
+  var serverTimeMillisGMT = Date.parse(new Date(Date.parse(dateStr)).toUTCString());
+  var localMillisUTC = Date.parse(new Date().toUTCString());
+  offset = serverTimeMillisGMT -  localMillisUTC;
+};
+
+oReq = new XMLHttpRequest();
+oReq.onload = reqListener;
+oReq.open("GET", "/", false);
+oReq.send();
+
+function getServerTime() {
+  var date = new Date();
+  date.setTime(date.getTime() + offset);
+  return date;
+}
 
 function disablePoll(){
   option1.disabled = true;
@@ -29,7 +46,7 @@ function disablePoll(){
 function sendVote(event,option){
   voted = true;
   if(option){
-    wsf.sendText('vote:' + option + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
+    wsf.sendText('vote:' + option + ',' + window.userObject.name + "," + window.userObject.email + ',' + getServerTime().getTime());
   }
   disablePoll();
   return false;
@@ -53,7 +70,7 @@ option2.onclick = function(event) {
 
 disagree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-disagree', 'vote']);
-  wsf.send('props:disagree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
+  wsf.send('props:disagree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + getServerTime().getTime());
   disagree.disabled = true;
   disagree.style.opacity = 0.4;
 //  disagree.value = "Waiting for next slide";
@@ -62,7 +79,7 @@ disagree.onclick = function(event) {
 
 agree.onclick = function(event) {
   _gaq.push(['_trackEvent', 'onslyde-agree', 'vote']);
-  wsf.send('props:agree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + new Date().getTime());
+  wsf.send('props:agree' + ',' + window.userObject.name + "," + window.userObject.email + ',' + getServerTime().getTime());
   agree.disabled = true;
   agree.style.opacity = 0.4;
 //  agree.value = "Waiting for next slide";
